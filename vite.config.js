@@ -1,12 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// GitHub project pages are served under /<repo>/; relative base keeps asset URLs valid.
-export default defineConfig({
-  base: "./",
-  plugins: [react()],
-  build: {
-    outDir: "docs",
-    emptyOutDir: true,
-  },
+// Project pages live at https://<user>.github.io/<repo>/ — CI sets GITHUB_REPOSITORY.
+export default defineConfig(({ command }) => {
+  const repo = process.env.GITHUB_REPOSITORY?.split("/")[1];
+  const prodBase = repo ? `/${repo}/` : "./";
+
+  return {
+    base: command === "serve" ? "/" : prodBase,
+    plugins: [react()],
+    build: {
+      outDir: "docs",
+      emptyOutDir: true,
+    },
+  };
 });
