@@ -2,7 +2,7 @@
  * Web App Google Apps Script: вставьте сюда URL развёрнутого веб-приложения
  * (Развёртывание → веб-приложение, доступ: «Все»).
  */
-export const GOOGLE_SCRIPT_URL = "PASTE GOOGLE APPS SCRIPT WEB APP URL HERE";
+export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3rc4XYEBBckNb3PVvGcKKpXg9gPA0Ouq0l7x_7PrtpZZZ2ILJ_TmF0Xj59RywzWQR/exec";
 
 /**
  * Пример doPost() в Code.gs (добавьте ID таблицы и при необходимости лист):
