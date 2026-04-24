@@ -295,7 +295,7 @@ textarea {
 }
 
 .nav-inner {
-  min-height: 72px;
+  min-height: 88px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -316,9 +316,9 @@ textarea {
 
 .logo-img {
   display: block;
-  height: 44px;
+  height: 60px;
   width: auto;
-  max-width: min(220px, 52vw);
+  max-width: min(320px, calc(100vw - 120px));
   object-fit: contain;
 }
 
@@ -1193,8 +1193,10 @@ textarea {
 }
 
 .logo-img--footer {
-  height: 40px;
-  max-width: 200px;
+  height: 56px;
+  max-width: 280px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer-desc {

@@ -6,7 +6,7 @@ export default function ClientsSection({ data }) {
       <div className="container center-head fade-up">
         <p className="eyebrow">{u.clients_eyebrow}</p>
         <h2 className="s-title">{u.clients_title}</h2>
-        <p className="s-sub">{u.clients_sub}</p>
+        {u.clients_sub ? <p className="s-sub">{u.clients_sub}</p> : null}
       </div>
       <div className="container clients-grid fade-up d1">
         {data.clients.map((name) => (
