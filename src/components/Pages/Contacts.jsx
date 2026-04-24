@@ -1,9 +1,11 @@
 import { useState } from "react";
 import PageHero from "./PageHero.jsx";
+import { getPhoneList } from "../../data.js";
 
 export default function Contacts({ data }) {
   const u = data.ui;
   const c = data.company;
+  const phones = getPhoneList(c);
   const [country, setCountry] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -62,7 +64,10 @@ export default function Contacts({ data }) {
           <div className="contacts-info fade-up d1">
             <ul className="info-list">
               <li>
-                <strong>{u.contacts_labels_address}</strong> {c.address_full}
+                <strong>{u.contacts_labels_address}</strong>{" "}
+                <a href={c.map_url} target="_blank" rel="noreferrer">
+                  {c.address_full}
+                </a>
               </li>
               <li>
                 <strong>{u.contacts_labels_hours}</strong> {c.workhours}
@@ -70,9 +75,16 @@ export default function Contacts({ data }) {
               <li>
                 <strong>{u.contacts_labels_accred}</strong> {c.accred}
               </li>
-              <li>
+              <li className="info-list-phones">
                 <strong>{u.contacts_labels_phone}</strong>{" "}
-                <a href={`tel:+${c.phone_link}`}>{c.phone}</a>
+                <span className="info-phones">
+                  {phones.map((p, i) => (
+                    <span key={p.tel}>
+                      {i > 0 ? ", " : null}
+                      <a href={`tel:+${p.tel}`}>{p.text}</a>
+                    </span>
+                  ))}
+                </span>
               </li>
               <li>
                 <strong>{u.contacts_labels_email}</strong>{" "}

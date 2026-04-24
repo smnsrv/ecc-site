@@ -11,6 +11,7 @@ export default function ContactsTab({ data, setData }) {
     ["accred", "Аккредитация"],
     ["address_short", "Адрес (короткий)"],
     ["address_full", "Адрес (полный)"],
+    ["map_url", "Ссылка на карту (Google Maps и т.д.)"],
     ["workhours", "Часы работы"],
     ["phone", "Телефон (отображение)"],
     ["phone_link", "Телефон (ссылка, только цифры)"],
@@ -28,9 +29,9 @@ export default function ContactsTab({ data, setData }) {
       {fields.map(([key, label]) => (
         <AdminField key={key} label={label}>
           {key === "desc" ? (
-            <textarea rows={3} value={c[key]} onChange={(e) => patch(key, e.target.value)} />
+            <textarea rows={3} value={c[key] ?? ""} onChange={(e) => patch(key, e.target.value)} />
           ) : (
-            <input value={c[key]} onChange={(e) => patch(key, e.target.value)} />
+            <input value={c[key] ?? ""} onChange={(e) => patch(key, e.target.value)} />
           )}
         </AdminField>
       ))}

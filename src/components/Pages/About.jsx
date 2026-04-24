@@ -22,6 +22,14 @@ export default function About({ data }) {
           </div>
         </div>
       </section>
+      {ap.mission ? (
+        <section className="section section--mission">
+          <div className="container about-mission">
+            <h2 className="s-title center fade-up">{ap.mission_title}</h2>
+            <p className="s-sub about-mission-text fade-up d1">{ap.mission}</p>
+          </div>
+        </section>
+      ) : null}
       <section className="section section-alt">
         <div className="container">
           <h2 className="s-title center fade-up">{ap.accreditations_title}</h2>

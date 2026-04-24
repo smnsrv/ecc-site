@@ -1,7 +1,11 @@
+import { getPhoneList } from "../../data.js";
+import { logoUrl } from "../../logoUrl.js";
+
 /** Подвал: 4 колонки */
 export default function Footer({ data, onPage }) {
   const c = data.company;
   const u = data.ui;
+  const phones = getPhoneList(c);
 
   return (
     <footer className="footer">
@@ -10,10 +14,10 @@ export default function Footer({ data, onPage }) {
           <div className="footer-logo">
             <img
               className="logo-img logo-img--footer"
-              src={`${import.meta.env.BASE_URL}logo.png`}
+              src={logoUrl}
               alt={c.name}
               width={200}
-              height={100}
+              height={48}
               decoding="async"
             />
           </div>
@@ -54,13 +58,19 @@ export default function Footer({ data, onPage }) {
         <div className="footer-col fade-up d3">
           <h4>{u.footer_contacts}</h4>
           <ul className="footer-contacts">
-            <li>
-              <a href={`tel:+${c.phone_link}`}>{c.phone}</a>
-            </li>
+            {phones.map((p) => (
+              <li key={p.tel}>
+                <a href={`tel:+${p.tel}`}>{p.text}</a>
+              </li>
+            ))}
             <li>
               <a href={`mailto:${c.email}`}>{c.email}</a>
             </li>
-            <li>{c.address_short}</li>
+            <li>
+              <a href={c.map_url} target="_blank" rel="noreferrer">
+                {c.address_short}
+              </a>
+            </li>
             <li>{c.workhours}</li>
           </ul>
         </div>

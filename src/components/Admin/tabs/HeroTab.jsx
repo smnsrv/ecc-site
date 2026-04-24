@@ -34,12 +34,17 @@ export default function HeroTab({ data, setData }) {
       </AdminField>
       <div className="admin-block-title">Цифры доверия в герое</div>
       {h.trust.map((t, idx) => (
-        <div key={t.lbl} className="admin-row-2">
-          <AdminField label={`Значение ${idx + 1}`}>
-            <input value={t.num} onChange={(e) => patchTrust(idx, "num", e.target.value)} />
-          </AdminField>
-          <AdminField label="Подпись">
-            <input value={t.lbl} onChange={(e) => patchTrust(idx, "lbl", e.target.value)} />
+        <div key={t.lbl} className="admin-usp-block">
+          <div className="admin-row-2">
+            <AdminField label={`Значение ${idx + 1}`}>
+              <input value={t.num} onChange={(e) => patchTrust(idx, "num", e.target.value)} />
+            </AdminField>
+            <AdminField label="Подпись">
+              <input value={t.lbl} onChange={(e) => patchTrust(idx, "lbl", e.target.value)} />
+            </AdminField>
+          </div>
+          <AdminField label="Вторая строка подписи (необязательно)">
+            <input value={t.sub ?? ""} onChange={(e) => patchTrust(idx, "sub", e.target.value || undefined)} />
           </AdminField>
         </div>
       ))}

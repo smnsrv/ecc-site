@@ -1,3 +1,5 @@
+import { logoUrl } from "../../logoUrl.js";
+
 const PAGES = ["home", "services", "about", "contacts"];
 
 /** Sticky-навигация: логотип, пункты меню, CTA */
@@ -22,10 +24,10 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
         <button type="button" className="logo" onClick={() => go("home")} aria-label={u.nav_home}>
           <img
             className="logo-img"
-            src={`${import.meta.env.BASE_URL}logo.png`}
+            src={logoUrl}
             alt=""
             width={200}
-            height={100}
+            height={48}
             decoding="async"
           />
         </button>

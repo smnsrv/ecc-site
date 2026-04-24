@@ -31,12 +31,17 @@ export default function GeneralTab({ data, setData }) {
       </AdminField>
       <div className="admin-block-title">Большие цифры (главная полоса)</div>
       {data.numbers.map((n, idx) => (
-        <div key={n.lbl} className="admin-row-2">
-          <AdminField label={`Цифра ${idx + 1}`}>
-            <input value={n.val} onChange={(e) => patchNumber(idx, "val", e.target.value)} />
-          </AdminField>
-          <AdminField label="Подпись">
-            <input value={n.lbl} onChange={(e) => patchNumber(idx, "lbl", e.target.value)} />
+        <div key={n.lbl} className="admin-usp-block">
+          <div className="admin-row-2">
+            <AdminField label={`Цифра ${idx + 1}`}>
+              <input value={n.val} onChange={(e) => patchNumber(idx, "val", e.target.value)} />
+            </AdminField>
+            <AdminField label="Подпись">
+              <input value={n.lbl} onChange={(e) => patchNumber(idx, "lbl", e.target.value)} />
+            </AdminField>
+          </div>
+          <AdminField label="Вторая строка подписи (необязательно)">
+            <input value={n.sub ?? ""} onChange={(e) => patchNumber(idx, "sub", e.target.value || undefined)} />
           </AdminField>
         </div>
       ))}

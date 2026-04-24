@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { getPhoneList } from "../../data.js";
 
 /** Финальный CTA с формой */
 export default function CtaForm({ data }) {
   const c = data.cta;
   const co = data.company;
+  const phones = getPhoneList(co);
   const u = data.ui;
   const [sent, setSent] = useState(false);
   const [country, setCountry] = useState("");
@@ -28,9 +30,13 @@ export default function CtaForm({ data }) {
             ))}
           </ul>
           <p className="cta-phone-note">{c.phone_note}</p>
-          <a className="cta-phone" href={`tel:+${co.phone_link}`}>
-            {co.phone}
-          </a>
+          <div className="cta-phones" role="group" aria-label={c.phone_note.replace(":", "").trim()}>
+            {phones.map((p) => (
+              <a key={p.tel} className="cta-phone" href={`tel:+${p.tel}`}>
+                {p.text}
+              </a>
+            ))}
+          </div>
         </div>
         <div className="cta-card-wrap fade-up d1">
           {!sent ? (

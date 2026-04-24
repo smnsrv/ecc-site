@@ -262,6 +262,20 @@ textarea {
   flex-wrap: wrap;
 }
 
+.topbar-phones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0 4px;
+}
+
+.topbar-phone-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
 .topbar-link {
   color: inherit;
   text-decoration: none;
@@ -427,7 +441,7 @@ textarea {
 
 .trust-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 
@@ -444,9 +458,19 @@ textarea {
   font-size: 22px;
   color: var(--white);
 }
-.trust-item span {
+.trust-item .trust-lbl {
+  display: block;
+  margin-top: 2px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.65);
+  line-height: 1.35;
+}
+.trust-item .trust-sub {
+  display: block;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+  line-height: 1.35;
 }
 
 .field {
@@ -579,6 +603,35 @@ textarea {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.video-grid--text-only {
+  grid-template-columns: 1fr;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.video-copy .s-sub {
+  margin-bottom: 0;
+}
+.video-purposes-lead {
+  margin: 20px 0 10px;
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 16px;
+}
+.video-purposes-list {
+  margin: 0 0 20px;
+  padding-left: 1.25em;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+.video-purposes-list li {
+  margin-bottom: 8px;
+}
+.video-purposes-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* ——— Клиенты ——— */
@@ -769,7 +822,7 @@ textarea {
 
 .numbers-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 8px;
 }
@@ -786,8 +839,17 @@ textarea {
   color: var(--white);
 }
 .num-lbl {
+  display: block;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.72);
+  margin-top: 4px;
+}
+.num-sub {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+  line-height: 1.4;
 }
 
 /* ——— Отзывы ——— */
@@ -879,6 +941,13 @@ textarea {
   margin: 0 0 6px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.65);
+}
+
+.cta-phones {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .cta-phone {
@@ -987,6 +1056,24 @@ textarea {
 }
 .about-para + .about-para {
   margin-top: 12px;
+}
+
+.section--mission {
+  padding-top: 0;
+}
+
+.about-mission-text {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1.75;
+}
+
+.info-phones a {
+  white-space: nowrap;
+}
+.info-list-phones .info-phones {
+  display: inline;
 }
 
 .accred-grid {

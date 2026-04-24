@@ -19,9 +19,10 @@ export default function Hero({ data, onPage }) {
       </div>
       <div className="trust-grid">
         {h.trust.map((t, i) => (
-          <div key={t.lbl} className={`trust-item fade-up d${i + 1}`}>
+          <div key={`${t.lbl}-${i}`} className={`trust-item fade-up d${i + 1}`}>
             <strong>{t.num}</strong>
-            <span>{t.lbl}</span>
+            <span className="trust-lbl">{t.lbl}</span>
+            {t.sub ? <span className="trust-sub">{t.sub}</span> : null}
           </div>
         ))}
       </div>
