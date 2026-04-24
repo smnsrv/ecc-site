@@ -1,6 +1,10 @@
 import { useState } from "react";
 import PageHero from "./PageHero.jsx";
 import { getPhoneList } from "../../data.js";
+import { postConsultationToSheets } from "../../integrations/sheetsForm.js";
+
+const SUCCESS_MSG = "Спасибо! Ваша заявка отправлена.";
+const ERROR_MSG = "Не удалось отправить заявку. Попробуйте позже.";
 
 export default function Contacts({ data }) {
   const u = data.ui;
@@ -8,12 +12,42 @@ export default function Contacts({ data }) {
   const phones = getPhoneList(c);
   const [country, setCountry] = useState("");
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [sendError, setSendError] = useState(null);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    console.log("[contacts]", { ...Object.fromEntries(fd.entries()), country });
-    setSent(true);
+    const form = e.currentTarget;
+    setSendError(null);
+    setSubmitting(true);
+    const fd = new FormData(form);
+    const productType = (fd.get("product") || "").toString();
+    const countryValue = (fd.get("country") || "").toString();
+    const contact = (fd.get("messenger") || "").toString();
+    const email = (fd.get("email") || "").toString();
+    const countryLabel =
+      data.consult_countries.find((o) => o.value === countryValue && !o.disabled)?.label || countryValue;
+    const source = `${window.location.href} | ${u.contacts_form_title}`;
+    const dateTime = new Date().toISOString();
+
+    try {
+      await postConsultationToSheets({
+        dateTime,
+        productType,
+        country: countryLabel,
+        contact,
+        email,
+        source,
+      });
+      form.reset();
+      setCountry("");
+      setSent(true);
+    } catch (err) {
+      console.log(err);
+      setSendError(ERROR_MSG);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -47,8 +81,13 @@ export default function Contacts({ data }) {
                   <span>{data.cta.fields.email}</span>
                   <input name="email" type="email" placeholder={data.cta.placeholders.email} required />
                 </label>
-                <button type="submit" className="btn-primary btn-block">
-                  {u.contacts_form_submit}
+                {sendError ? (
+                  <p className="contacts-form-error" role="alert">
+                    {sendError}
+                  </p>
+                ) : null}
+                <button type="submit" className="btn-primary btn-block" disabled={submitting}>
+                  {submitting ? "Отправка…" : u.contacts_form_submit}
                 </button>
               </form>
             ) : (
@@ -56,8 +95,7 @@ export default function Contacts({ data }) {
                 <div className="cta-success-icon" aria-hidden>
                   ✓
                 </div>
-                <h3>{u.cta_success_title}</h3>
-                <p>{u.cta_success_text}</p>
+                <h3>{SUCCESS_MSG}</h3>
               </div>
             )}
           </div>

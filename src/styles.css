@@ -1152,6 +1152,14 @@ textarea {
   margin-bottom: 20px;
 }
 
+.contacts-form-error {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #b91c1c;
+}
+
 .info-list {
   list-style: none;
   padding: 0;
