@@ -291,36 +291,21 @@ textarea {
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
   border: none;
   background: none;
   cursor: pointer;
   text-align: left;
   padding: 0;
   color: var(--navy);
-}
-
-.logo-mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--blue), var(--accent));
   flex-shrink: 0;
 }
 
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-.logo-text strong {
-  font-family: var(--h);
-  font-size: 17px;
-}
-.logo-text small {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
+.logo-img {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: min(220px, 52vw);
+  object-fit: contain;
 }
 
 .nav-menu.desktop {
@@ -1119,10 +1104,10 @@ textarea {
 .footer-logo {
   margin-bottom: 12px;
 }
-.footer-logo .logo-mark {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
+
+.logo-img--footer {
+  height: 40px;
+  max-width: 200px;
 }
 
 .footer-desc {

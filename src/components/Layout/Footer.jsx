@@ -7,9 +7,15 @@ export default function Footer({ data, onPage }) {
     <footer className="footer">
       <div className="container footer-grid">
         <div className="footer-brand fade-up">
-          <div className="logo footer-logo">
-            <span className="logo-mark" aria-hidden />
-            <strong>{c.name}</strong>
+          <div className="footer-logo">
+            <img
+              className="logo-img logo-img--footer"
+              src={`${import.meta.env.BASE_URL}logo.png`}
+              alt={c.name}
+              width={200}
+              height={100}
+              decoding="async"
+            />
           </div>
           <p className="footer-desc">{c.desc}</p>
         </div>

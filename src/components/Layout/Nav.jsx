@@ -20,11 +20,14 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
     <nav className="nav">
       <div className="container nav-inner">
         <button type="button" className="logo" onClick={() => go("home")} aria-label={u.nav_home}>
-          <span className="logo-mark" aria-hidden />
-          <span className="logo-text">
-            <strong>{data.company.name}</strong>
-            <small>{data.company.sub}</small>
-          </span>
+          <img
+            className="logo-img"
+            src={`${import.meta.env.BASE_URL}logo.png`}
+            alt=""
+            width={200}
+            height={100}
+            decoding="async"
+          />
         </button>
         <div className="nav-menu desktop">
           {PAGES.map((p) => (
