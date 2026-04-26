@@ -1,4 +1,3 @@
-/** Отзывы */
 export default function Reviews({ data }) {
   const u = data.ui;
   return (

@@ -3,7 +3,6 @@ import { DEFAULT_DATA } from "../data.js";
 
 const STORAGE_KEY = "ecc_cms_data_react";
 
-/** Глубокое слияние patch в base (массивы из patch заменяют целиком). */
 function deepMerge(base, patch) {
   if (!patch || typeof patch !== "object") return base;
   if (Array.isArray(patch)) return patch;
@@ -40,10 +39,6 @@ export function resetData() {
   return structuredClone(DEFAULT_DATA);
 }
 
-/**
- * Состояние данных сайта + сохранение в localStorage.
- * Live-редактирование: меняйте через setData; «Сохранить» вызывает persist().
- */
 export function useData() {
   const [data, setData] = useState(() => loadData());
 

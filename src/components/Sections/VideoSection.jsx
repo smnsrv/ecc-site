@@ -1,4 +1,3 @@
-/** Видео (опционально) + текст о сертификационных испытаниях */
 export default function VideoSection({ data, onPage }) {
   const v = data.video_section;
   const url = data.company.video_url?.trim();

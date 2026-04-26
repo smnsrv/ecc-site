@@ -1,7 +1,4 @@
-/**
- * Вставь ВЕСЬ этот файл в Apps Script (замени всё в Code.gs).
- * Свойства сценария: TG_TOKEN, TG_CHAT_ID
- */
+// Script properties: TG_TOKEN, TG_CHAT_ID (один id или несколько через запятую, например 123,456)
 var SHEET_ID = "1PLQ9OXApw9l5hd5uADfarbTxik8jmS6HqTkniRc-Ie0";
 
 function doPost(e) {
@@ -34,6 +31,49 @@ function doPost(e) {
   }
 }
 
+function parseChatIds_(raw) {
+  if (raw == null) return [];
+  return String(raw)
+    .split(",")
+    .map(function (s) {
+      return s.trim();
+    })
+    .filter(function (s) {
+      return s.length > 0;
+    });
+}
+
+function sendOneTgMessage_(url, chatId, html) {
+  var res = UrlFetchApp.fetch(url, {
+    method: "post",
+    contentType: "application/json",
+    muteHttpExceptions: true,
+    payload: JSON.stringify({
+      chat_id: /^\d+$/.test(String(chatId)) ? Number(chatId) : String(chatId),
+      text: html,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+  var j = JSON.parse(res.getContentText());
+  if (j.ok) return { ok: true, chat: chatId };
+  if (j.error_code === 400 && j.description && j.description.indexOf("parse") !== -1) {
+    res = UrlFetchApp.fetch(url, {
+      method: "post",
+      contentType: "application/json",
+      muteHttpExceptions: true,
+      payload: JSON.stringify({
+        chat_id: /^\d+$/.test(String(chatId)) ? Number(chatId) : String(chatId),
+        text: html.replace(/<[^>]+>/g, " "),
+        disable_web_page_preview: true,
+      }),
+    });
+    j = JSON.parse(res.getContentText());
+    if (j.ok) return { ok: true, chat: chatId, fallback: "plain" };
+  }
+  return { ok: false, chat: chatId, error: j.description || res.getContentText() };
+}
+
 function sendTelegram_(html) {
   var p = PropertiesService.getScriptProperties();
   var token = (p.getProperty("TG_TOKEN") || "").trim();
@@ -41,36 +81,20 @@ function sendTelegram_(html) {
   if (!token || chatIdRaw === null || String(chatIdRaw) === "") {
     return { sent: false, error: "no TG_TOKEN or TG_CHAT_ID" };
   }
-  var chatId = /^\d+$/.test(String(chatIdRaw)) ? Number(chatIdRaw) : String(chatIdRaw);
-  var url = "https://api.telegram.org/bot" + token + "/sendMessage";
-  var res = UrlFetchApp.fetch(url, {
-    method: "post",
-    contentType: "application/json",
-    muteHttpExceptions: true,
-    payload: JSON.stringify({
-      chat_id: chatId,
-      text: html,
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    }),
-  });
-  var j = JSON.parse(res.getContentText());
-  if (j.ok) return { sent: true, ok: true };
-  if (j.error_code === 400 && j.description && j.description.indexOf("parse") !== -1) {
-    res = UrlFetchApp.fetch(url, {
-      method: "post",
-      contentType: "application/json",
-      muteHttpExceptions: true,
-      payload: JSON.stringify({
-        chat_id: chatId,
-        text: html.replace(/<[^>]+>/g, " "),
-        disable_web_page_preview: true,
-      }),
-    });
-    j = JSON.parse(res.getContentText());
-    if (j.ok) return { sent: true, ok: true, fallback: "plain" };
+  var ids = parseChatIds_(chatIdRaw);
+  if (!ids.length) {
+    return { sent: false, error: "no TG_TOKEN or TG_CHAT_ID" };
   }
-  return { sent: false, ok: false, error: j.description || res.getContentText() };
+  var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+  var results = [];
+  var allOk = true;
+  for (var i = 0; i < ids.length; i++) {
+    var r = sendOneTgMessage_(url, ids[i], html);
+    results.push(r);
+    if (!r.ok) allOk = false;
+  }
+  if (allOk) return { sent: true, ok: true, to: ids.length, results: results };
+  return { sent: false, ok: false, to: ids.length, results: results, error: "one or more sends failed" };
 }
 
 function jsonOut_(obj) {

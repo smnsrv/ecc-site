@@ -1,4 +1,3 @@
-/** Преимущества + фото */
 export default function WhyUs({ data }) {
   const u = data.ui;
   const img = data.company.usp_img;

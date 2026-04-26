@@ -1,4 +1,3 @@
-/** Логотипы клиентов и флаги стран */
 export default function ClientsSection({ data }) {
   const u = data.ui;
   return (

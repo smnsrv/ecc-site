@@ -1,4 +1,3 @@
-/** Герой: заголовок, кнопки, блок доверия */
 export default function Hero({ data, onPage }) {
   const h = data.hero;
   const c = data.company;

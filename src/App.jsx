@@ -10,7 +10,6 @@ import About from "./components/Pages/About.jsx";
 import Contacts from "./components/Pages/Contacts.jsx";
 import AdminPanel from "./components/Admin/AdminPanel.jsx";
 
-/** Применяем палитру из DATA к CSS-переменным корня */
 function applyDesignTokens(design) {
   const r = document.documentElement;
   r.style.setProperty("--navy", design.navy);

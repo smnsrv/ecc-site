@@ -1,4 +1,3 @@
-/** 4 шага с линией */
 export default function Process({ data }) {
   const u = data.ui;
   return (

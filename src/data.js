@@ -1,4 +1,3 @@
-/** Базовые данные сайта (CMS). Поля в snake_case — как в ТЗ. */
 export const DEFAULT_DATA = {
   ui: {
     nav_home: "Главная",

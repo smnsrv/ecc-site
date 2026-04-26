@@ -1,6 +1,5 @@
 import AdminField from "../AdminField.jsx";
 
-/** Герой + фото USP (URL) */
 export default function HeroTab({ data, setData }) {
   const h = data.hero;
   const patchHero = (key, val) => setData((prev) => ({ ...prev, hero: { ...prev.hero, [key]: val } }));

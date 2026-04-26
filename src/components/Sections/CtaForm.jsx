@@ -2,7 +2,6 @@ import { useState } from "react";
 import { getPhoneList } from "../../data.js";
 import { sendToTelegram } from "../../integrations/telegram.js";
 
-/** Финальный CTA с формой */
 export default function CtaForm({ data }) {
   const c = data.cta;
   const co = data.company;

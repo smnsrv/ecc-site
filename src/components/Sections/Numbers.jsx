@@ -1,4 +1,3 @@
-/** Полоса с цифрами */
 export default function Numbers({ data }) {
   const u = data.ui;
   return (

@@ -9,7 +9,6 @@ import Numbers from "../Sections/Numbers.jsx";
 import Reviews from "../Sections/Reviews.jsx";
 import CtaForm from "../Sections/CtaForm.jsx";
 
-/** Главная: все секции по порядку ТЗ */
 export default function Home({ data, onPage }) {
   return (
     <main>

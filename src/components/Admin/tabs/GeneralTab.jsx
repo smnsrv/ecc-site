@@ -1,6 +1,5 @@
 import AdminField from "../AdminField.jsx";
 
-/** Основное: компания, цифры, USP */
 export default function GeneralTab({ data, setData }) {
   const patchCompany = (key, val) =>
     setData((prev) => ({ ...prev, company: { ...prev.company, [key]: val } }));

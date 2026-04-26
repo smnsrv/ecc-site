@@ -1,6 +1,3 @@
-/**
- * Верхняя полоса: адрес, часы, аккредитация; email и один телефон (только +998 95 1159997).
- */
 const TOPBAR_PHONE = { text: "+998 95 1159997", tel: "998951159997" };
 
 export default function Topbar({ data }) {

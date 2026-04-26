@@ -9,7 +9,6 @@ const PRESETS = [
   { name: "Песок", navy: "#292524", blue: "#B45309", accent: "#EA580C", light: "#FFFBEB" },
 ];
 
-/** Цвета и пресеты */
 export default function DesignTab({ data, setData }) {
   const d = data.design;
 

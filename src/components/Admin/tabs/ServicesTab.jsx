@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AdminField from "../AdminField.jsx";
 
-/** Услуги: аккордеон, добавление, удаление */
 export default function ServicesTab({ data, setData }) {
   const [openId, setOpenId] = useState(data.services[0]?.id ?? null);
 

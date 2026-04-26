@@ -1,4 +1,3 @@
-/** Заголовок внутренних страниц */
 export default function PageHero({ eyebrow, title, sub }) {
   return (
     <section className="page-hero">

@@ -1,4 +1,3 @@
-/** Сетка услуг на главной */
 export default function ServicesGrid({ data, onPage, home }) {
   const u = data.ui;
   return (

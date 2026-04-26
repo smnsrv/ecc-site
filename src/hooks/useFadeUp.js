@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-/** IntersectionObserver для .fade-up → класс .visible */
 export function useFadeUp(deps) {
   useEffect(() => {
     const nodes = document.querySelectorAll(".fade-up");

@@ -1,4 +1,3 @@
-/** Поле формы в админке */
 export default function AdminField({ label, hint, children }) {
   return (
     <label className="admin-field">

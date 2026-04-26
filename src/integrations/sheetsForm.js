@@ -1,48 +1,9 @@
-/**
- * Web App Google Apps Script: вставьте сюда **полный** URL (обязательно с https://)
- * из «Развёртывание → веб-приложение» (доступ: «Все»), например
- * https://script.google.com/macros/s/XXXX/exec
- *
- * Без https:// и без //script… браузер сочтёт ссылку относительной и пошлёт POST на
- * evserv.github.io/.../PASTE%20... → 405, как в консоли.
- */
-// Замените на URL из Google Apps Script → «Развёртывание» (полный, с https://)
-export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZvDfUT4SQDPp7-v6ZVvkp1LEaAB4suLcw5BQtQH9Q4_0My0tElU51d2X7TwPXlCIQ/exec";
-
-/**
- * Пример doPost() в Code.gs (добавьте ID таблицы и при необходимости лист):
- *
- * function doPost(e) {
- *   try {
- *     var data = JSON.parse(e.postData.contents);
- *     var sh = SpreadsheetApp.openById("YOUR_SHEET_ID").getSheets()[0];
- *     if (data.dateTime) {
- *       sh.appendRow([
- *         data.dateTime,
- *         data.productType,
- *         data.country,
- *         data.contact,
- *         data.email,
- *         data.source
- *       ]);
- *     }
- *     // при data.telegramText вызовите sendTg в GAS, см. telegram.js
- *     return ContentService
- *       .createTextOutput(JSON.stringify({ ok: true }))
- *       .setMimeType(ContentService.MimeType.JSON);
- *   } catch (err) {
- *     return ContentService
- *       .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
- *       .setMimeType(ContentService.MimeType.JSON);
- *   }
- * }
- *
- * В первой строке листа задайте заголовки: dateTime | productType | country | contact | email | source
- */
+// GAS: полный https:// URL веб-приложения (script.google.com/macros/.../exec), доступ «Все».
+export const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwRCDqxM_DuNzs2V5P4eRBg__Xb2ES2iz_wachlXdT5321OMoOX8epJtkrmW2y-gX2u/exec";
 
 const PLACEHOLDER = "PASTE GOOGLE APPS SCRIPT WEB APP URL HERE";
 
-/** @returns {string | null} код ошибки или null если URL ок */
 export function getSheetsUrlConfigError() {
   const u = (GOOGLE_SCRIPT_URL || "").trim();
   if (!u || u.includes(PLACEHOLDER)) {
@@ -57,10 +18,6 @@ export function getSheetsUrlConfigError() {
   return null;
 }
 
-/**
- * Произвольный JSON в веб-приложение (таблица + telegramText и т.д.).
- * Добавьте в GAS doPost: запись в лист + при наличии `telegramText` — UrlFetch в Bot API, см. комментарий в telegram.js
- */
 export async function postJsonToGoogleScript(payload) {
   const cfg = getSheetsUrlConfigError();
   if (cfg) {
@@ -83,7 +40,7 @@ export async function postJsonToGoogleScript(payload) {
   try {
     data = text ? JSON.parse(text) : null;
   } catch {
-    /* тело не JSON */
+    // non-JSON body
   }
 
   if (!res.ok) {

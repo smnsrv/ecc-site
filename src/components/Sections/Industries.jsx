@@ -1,4 +1,3 @@
-/** Отрасли — плитки */
 export default function Industries({ data }) {
   const u = data.ui;
   return (

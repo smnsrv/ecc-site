@@ -2,7 +2,6 @@ import { logoUrl } from "../../logoUrl.js";
 
 const PAGES = ["home", "services", "about", "contacts"];
 
-/** Sticky-навигация: логотип, пункты меню, CTA */
 export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
   const u = data.ui;
 

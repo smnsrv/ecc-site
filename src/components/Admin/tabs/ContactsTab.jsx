@@ -1,6 +1,5 @@
 import AdminField from "../AdminField.jsx";
 
-/** Контакты и медиа-компании */
 export default function ContactsTab({ data, setData }) {
   const c = data.company;
   const patch = (key, val) => setData((prev) => ({ ...prev, company: { ...prev.company, [key]: val } }));

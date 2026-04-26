@@ -1,7 +1,6 @@
 import { getPhoneList } from "../../data.js";
 import { logoUrl } from "../../logoUrl.js";
 
-/** Подвал: 4 колонки */
 export default function Footer({ data, onPage }) {
   const c = data.company;
   const u = data.ui;

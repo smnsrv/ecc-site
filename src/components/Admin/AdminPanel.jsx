@@ -13,7 +13,6 @@ const TABS = [
   { id: "design", Tab: DesignTab },
 ];
 
-/** Оверлей CMS: вкладки, live preview, сохранение в localStorage */
 export default function AdminPanel({ data, setData, onSave, onReset, onClose, ui }) {
   const [tab, setTab] = useState("general");
 
