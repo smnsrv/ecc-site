@@ -5,6 +5,10 @@ import { postConsultationToSheets } from "../../integrations/sheetsForm.js";
 
 const SUCCESS_MSG = "Спасибо! Ваша заявка отправлена.";
 const ERROR_MSG = "Не удалось отправить заявку. Попробуйте позже.";
+const ERR_CONFIG =
+  "Форма не настроена: в файле src/integrations/sheetsForm.js укажите полный URL веб-приложения Google (начинается с https://script.google.com/...), выполните npm run build и снова выложите папку docs на GitHub Pages.";
+const ERR_HTTPS = "В GOOGLE_SCRIPT_URL нужен полный адрес с https:// (скопируйте из Google Apps Script → Развёртывание).";
+const ERR_NOT_GAS = "URL должен вести на script.google.com/macros/... (веб-приложение Google Apps Script).";
 
 export default function Contacts({ data }) {
   const u = data.ui;
@@ -44,7 +48,16 @@ export default function Contacts({ data }) {
       setSent(true);
     } catch (err) {
       console.log(err);
-      setSendError(ERROR_MSG);
+      const code = err.sheetsConfigCode;
+      if (code === "SHEETS_PLACEHOLDER") {
+        setSendError(ERR_CONFIG);
+      } else if (code === "SHEETS_NOT_HTTPS") {
+        setSendError(ERR_HTTPS);
+      } else if (code === "SHEETS_NOT_SCRIPT") {
+        setSendError(ERR_NOT_GAS);
+      } else {
+        setSendError(ERROR_MSG);
+      }
     } finally {
       setSubmitting(false);
     }

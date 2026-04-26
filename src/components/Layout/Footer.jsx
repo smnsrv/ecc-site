@@ -16,8 +16,8 @@ export default function Footer({ data, onPage }) {
               className="logo-img logo-img--footer"
               src={logoUrl}
               alt={c.name}
-              width={280}
-              height={56}
+              width={520}
+              height={120}
               decoding="async"
             />
           </div>

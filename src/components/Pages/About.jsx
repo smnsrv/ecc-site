@@ -43,20 +43,6 @@ export default function About({ data }) {
           </div>
         </div>
       </section>
-      <section className="section">
-        <div className="container">
-          <h2 className="s-title center fade-up">{ap.team_title}</h2>
-          <div className="team-grid">
-            {ap.team.map((m, i) => (
-              <article key={m.name} className={`team-card fade-up d${(i % 4) + 1}`}>
-                <img src={m.photo} alt="" />
-                <h3>{m.name}</h3>
-                <p>{m.role}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

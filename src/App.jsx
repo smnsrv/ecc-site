@@ -64,7 +64,7 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <Topbar data={data} />
+      <Topbar />
       <Nav data={data} page={page} onPage={goPage} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       {page === "home" && <Home data={data} onPage={goPage} />}
       {page === "services" && <Services data={data} onPage={goPage} />}

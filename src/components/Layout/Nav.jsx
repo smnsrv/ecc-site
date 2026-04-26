@@ -26,8 +26,8 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
             className="logo-img"
             src={logoUrl}
             alt=""
-            width={320}
-            height={60}
+            width={640}
+            height={128}
             decoding="async"
           />
         </button>
