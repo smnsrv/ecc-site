@@ -245,16 +245,6 @@ textarea {
   flex-wrap: wrap;
 }
 
-.topbar-inner--phone-only {
-  justify-content: center;
-  min-height: 40px;
-}
-
-.topbar-solo-phone {
-  font-weight: 600;
-  font-size: 15px;
-}
-
 .topbar-left {
   display: flex;
   flex-wrap: wrap;
