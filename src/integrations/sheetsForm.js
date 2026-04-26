@@ -7,7 +7,7 @@
  * evserv.github.io/.../PASTE%20... → 405, как в консоли.
  */
 // Замените на URL из Google Apps Script → «Развёртывание» (полный, с https://)
-export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3rc4XYEBBckNb3PVvGcKKpXg9gPA0Ouq0l7x_7PrtpZZZ2ILJ_TmF0Xj59RywzWQR/exec";
+export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZvDfUT4SQDPp7-v6ZVvkp1LEaAB4suLcw5BQtQH9Q4_0My0tElU51d2X7TwPXlCIQ/exec";
 
 /**
  * Пример doPost() в Code.gs (добавьте ID таблицы и при необходимости лист):
