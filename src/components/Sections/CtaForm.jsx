@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getPhoneList } from "../../data.js";
+import { sendToTelegram } from "../../integrations/telegram.js";
 
 /** Финальный CTA с формой */
 export default function CtaForm({ data }) {
@@ -9,13 +10,46 @@ export default function CtaForm({ data }) {
   const u = data.ui;
   const [sent, setSent] = useState(false);
   const [country, setCountry] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [sendError, setSendError] = useState(null);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const payload = { ...Object.fromEntries(fd.entries()), country };
-    console.log("[cta]", payload);
-    setSent(true);
+    const form = e.currentTarget;
+    setSendError(null);
+    setSubmitting(true);
+    const fd = new FormData(form);
+    const product = (fd.get("product") || "").toString().trim();
+    const countryValue = (fd.get("country") || "").toString();
+    const contact = (fd.get("messenger") || "").toString().trim();
+    const email = (fd.get("email") || "").toString().trim();
+    const countryLabel =
+      data.consult_countries.find((o) => o.value === countryValue && !o.disabled)?.label || countryValue;
+    if (!product || !contact) {
+      setSendError("Заполните тип товара и контакт (Telegram / WhatsApp).");
+      setSubmitting(false);
+      return;
+    }
+    try {
+      const ok = await sendToTelegram("Главная (быстрая заявка)", {
+        "📦 Тип товара": product,
+        "🌍 Страна": countryLabel,
+        "📱 Telegram / WhatsApp": contact,
+        "📧 Email": email,
+      });
+      if (!ok) {
+        setSendError(`Не удалось отправить. Напишите напрямую: @${co.telegram}`);
+        return;
+      }
+      form.reset();
+      setCountry("");
+      setSent(true);
+    } catch (err) {
+      console.log(err);
+      setSendError("Ошибка отправки. Попробуйте позже.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -65,8 +99,13 @@ export default function CtaForm({ data }) {
                   <span>{c.fields.email}</span>
                   <input name="email" type="email" placeholder={c.placeholders.email} required />
                 </label>
-                <button type="submit" className="btn-primary btn-block">
-                  {c.submit}
+                {sendError ? (
+                  <p className="cta-form-error" role="alert">
+                    {sendError}
+                  </p>
+                ) : null}
+                <button type="submit" className="btn-primary btn-block" disabled={submitting}>
+                  {submitting ? "Отправка…" : c.submit}
                 </button>
               </form>
             </div>
