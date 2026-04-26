@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Подставь полный https:// URL к sitemap (как в браузере) и сделай build снова:
+# Sitemap: https://username.github.io/repo-name/sitemap.xml
