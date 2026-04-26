@@ -4,9 +4,8 @@ import App from "./App.jsx";
 import { testTelegram } from "./integrations/telegram.js";
 import "./styles.css";
 
-if (import.meta.env.DEV) {
-  window.testTelegram = testTelegram;
-}
+/** В консоли: testTelegram() — в dev с .env уходит в TG через Vite-прокси, в prod — в GAS (нужен Code.gs). */
+window.testTelegram = testTelegram;
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

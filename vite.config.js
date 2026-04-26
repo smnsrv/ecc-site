@@ -13,5 +13,16 @@ export default defineConfig(({ command }) => {
       outDir: "docs",
       emptyOutDir: true,
     },
+    // Локальный обход CORS: запросы к /_telegram-api/* идут на api.telegram.org (только dev).
+    // В production Telegram должен идти через GAS, см. src/integrations/telegram.js
+    server: {
+      proxy: {
+        "/_telegram-api": {
+          target: "https://api.telegram.org",
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/_telegram-api/, ""),
+        },
+      },
+    },
   };
 });

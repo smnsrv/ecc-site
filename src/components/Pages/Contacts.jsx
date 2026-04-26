@@ -2,7 +2,7 @@ import { useState } from "react";
 import PageHero from "./PageHero.jsx";
 import { getPhoneList } from "../../data.js";
 import { postConsultationToSheets } from "../../integrations/sheetsForm.js";
-import { sendToTelegram } from "../../integrations/telegram.js";
+import { buildTelegramHtmlMessage } from "../../integrations/telegram.js";
 
 const SUCCESS_MSG = "Спасибо! Ваша заявка отправлена.";
 const ERROR_MSG = "Не удалось отправить заявку. Попробуйте позже.";
@@ -35,6 +35,14 @@ export default function Contacts({ data }) {
     const source = `${window.location.href} | ${u.contacts_form_title}`;
     const dateTime = new Date().toISOString();
 
+    const telegramText = buildTelegramHtmlMessage(`Контакты: ${u.contacts_form_title}`, {
+      "📦 Тип товара": productType,
+      "🌍 Страна": countryLabel,
+      "📱 Telegram / WhatsApp": contact,
+      "📧 Email": email,
+      "🌐 Источник": source,
+    });
+
     try {
       await postConsultationToSheets({
         dateTime,
@@ -43,21 +51,8 @@ export default function Contacts({ data }) {
         contact,
         email,
         source,
+        telegramText,
       });
-      try {
-        const tgOk = await sendToTelegram(`Контакты: ${u.contacts_form_title}`, {
-          "📦 Тип товара": productType,
-          "🌍 Страна": countryLabel,
-          "📱 Telegram / WhatsApp": contact,
-          "📧 Email": email,
-          "🌐 Источник": source,
-        });
-        if (!tgOk) {
-          console.error("Telegram: уведомление не доставлено");
-        }
-      } catch (tgErr) {
-        console.error("Telegram:", tgErr);
-      }
       form.reset();
       setCountry("");
       setSent(true);

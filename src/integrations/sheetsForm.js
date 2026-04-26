@@ -16,14 +16,17 @@ export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3rc4
  *   try {
  *     var data = JSON.parse(e.postData.contents);
  *     var sh = SpreadsheetApp.openById("YOUR_SHEET_ID").getSheets()[0];
- *     sh.appendRow([
- *       data.dateTime,
- *       data.productType,
- *       data.country,
- *       data.contact,
- *       data.email,
- *       data.source
- *     ]);
+ *     if (data.dateTime) {
+ *       sh.appendRow([
+ *         data.dateTime,
+ *         data.productType,
+ *         data.country,
+ *         data.contact,
+ *         data.email,
+ *         data.source
+ *       ]);
+ *     }
+ *     // при data.telegramText вызовите sendTg в GAS, см. telegram.js
  *     return ContentService
  *       .createTextOutput(JSON.stringify({ ok: true }))
  *       .setMimeType(ContentService.MimeType.JSON);
@@ -54,7 +57,11 @@ export function getSheetsUrlConfigError() {
   return null;
 }
 
-export async function postConsultationToSheets(payload) {
+/**
+ * Произвольный JSON в веб-приложение (таблица + telegramText и т.д.).
+ * Добавьте в GAS doPost: запись в лист + при наличии `telegramText` — UrlFetch в Bot API, см. комментарий в telegram.js
+ */
+export async function postJsonToGoogleScript(payload) {
   const cfg = getSheetsUrlConfigError();
   if (cfg) {
     const e = new Error(cfg);
@@ -90,4 +97,9 @@ export async function postConsultationToSheets(payload) {
     err.response = data;
     throw err;
   }
+  return data;
+}
+
+export async function postConsultationToSheets(payload) {
+  return postJsonToGoogleScript(payload);
 }
