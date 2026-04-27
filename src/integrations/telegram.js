@@ -91,8 +91,21 @@ export async function sendToTelegram(formName, fields) {
     return false;
   }
 
+  const origin = typeof window !== "undefined" && window.location?.href ? window.location.href : "";
+  const source = [origin, formName].filter(Boolean).join(" | ") || "ECC сайт";
+  const sheetRow = {
+    dateTime: new Date().toISOString(),
+    productType: String(fields["📦 Тип товара"] ?? "").trim(),
+    country: String(fields["🌍 Страна"] ?? "").trim(),
+    contact: String(fields["📱 Telegram / WhatsApp"] ?? "").trim(),
+    email: String(fields["📧 Email"] ?? "").trim(),
+    source,
+  };
+
   try {
+    /* В GAS (Code.gs) строка в Таблицу пишется только при data.dateTime — раньше CTA слала только telegramText. */
     await postJsonToGoogleScript({
+      ...sheetRow,
       _ecc_telegram: true,
       _ecc_cta: true,
       formName,
