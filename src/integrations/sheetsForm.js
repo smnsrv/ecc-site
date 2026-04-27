@@ -1,6 +1,6 @@
 // GAS: полный https:// URL веб-приложения (script.google.com/macros/.../exec), доступ «Все».
 export const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwRCDqxM_DuNzs2V5P4eRBg__Xb2ES2iz_wachlXdT5321OMoOX8epJtkrmW2y-gX2u/exec";
+  "https://script.google.com/macros/s/AKfycbxvwYcw7h-3C1GAXIO5kUgrhXbrB_lCB1LNmYoL6rdSOV6P0FQ4sDio4XjEGl3XAAUm/exec";
 
 const PLACEHOLDER = "PASTE GOOGLE APPS SCRIPT WEB APP URL HERE";
 

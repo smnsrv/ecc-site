@@ -6,7 +6,7 @@ const TG_CHAT_ID = import.meta.env.VITE_TG_CHAT_ID ?? "";
 
 function parseDevChatIds() {
   return String(TG_CHAT_ID)
-    .split(",")
+    .split(/[,;|]/)
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -18,6 +18,11 @@ function escHtml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+/** В dev (прокси) в конец копии — id чата. В проде GAS так же только id (без лишнего API). */
+function devRecipientFooterLine(chatId) {
+  return `\n\n—\n<i>Получатель: id ${escHtml(String(chatId))}</i>`;
 }
 
 export function isTelegramConfigured() {
@@ -58,7 +63,7 @@ export async function sendMessageViaDevProxy(telegramText) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id,
-        text: telegramText,
+        text: telegramText + devRecipientFooterLine(chat_id),
         parse_mode: "HTML",
         disable_web_page_preview: true,
       }),

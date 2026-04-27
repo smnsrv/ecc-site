@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { testTelegram } from "../../integrations/telegram.js";
 import GeneralTab from "./tabs/GeneralTab.jsx";
 import ServicesTab from "./tabs/ServicesTab.jsx";
 import HeroTab from "./tabs/HeroTab.jsx";
@@ -15,6 +16,7 @@ const TABS = [
 
 export default function AdminPanel({ data, setData, onSave, onReset, onClose, ui }) {
   const [tab, setTab] = useState("general");
+  const [tgTestBusy, setTgTestBusy] = useState(false);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -55,6 +57,21 @@ export default function AdminPanel({ data, setData, onSave, onReset, onClose, ui
           </button>
           <button type="button" className="btn-ghost" onClick={onReset}>
             {ui.admin_reset}
+          </button>
+          <button
+            type="button"
+            className="btn-ghost"
+            disabled={tgTestBusy}
+            onClick={async () => {
+              setTgTestBusy(true);
+              try {
+                await testTelegram();
+              } finally {
+                setTgTestBusy(false);
+              }
+            }}
+          >
+            {tgTestBusy ? "…" : ui.admin_test_telegram}
           </button>
         </footer>
       </div>

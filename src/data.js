@@ -55,6 +55,7 @@ export const DEFAULT_DATA = {
     admin_title: "Редактирование контента",
     admin_save: "💾 Сохранить",
     admin_reset: "↩ Сброс",
+    admin_test_telegram: "Тест Telegram",
     admin_close: "Закрыть",
     admin_tabs: {
       general: "🏢 Основное",
