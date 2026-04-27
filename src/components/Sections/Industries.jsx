@@ -13,7 +13,7 @@ export default function Industries({ data }) {
             <span className="industry-ico" aria-hidden>
               {it.ico}
             </span>
-            <span>{it.name}</span>
+            <span className="industry-name">{it.name}</span>
           </div>
         ))}
       </div>

@@ -1,6 +1,7 @@
 export default function Hero({ data, onPage }) {
   const h = data.hero;
   const c = data.company;
+  const tg = String(c.telegram || "").replace(/^@/, "");
   return (
     <div className="hero-main fade-up">
       <p className="hero-badge">{h.badge}</p>
@@ -12,7 +13,12 @@ export default function Hero({ data, onPage }) {
         <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
           {h.btn1}
         </button>
-        <a className="btn-outline-w" href={`https://wa.me/${c.whatsapp}`} target="_blank" rel="noreferrer">
+        <a
+          className="btn-outline-w"
+          href={tg ? `https://t.me/${tg}` : "#"}
+          target="_blank"
+          rel="noreferrer"
+        >
           {h.btn2}
         </a>
       </div>

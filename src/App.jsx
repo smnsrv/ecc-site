@@ -9,6 +9,7 @@ import Services from "./components/Pages/Services.jsx";
 import About from "./components/Pages/About.jsx";
 import Contacts from "./components/Pages/Contacts.jsx";
 import AdminPanel from "./components/Admin/AdminPanel.jsx";
+import ChatWidget from "./components/ChatWidget.jsx";
 
 function applyDesignTokens(design) {
   const r = document.documentElement;
@@ -70,6 +71,8 @@ export default function App() {
       {page === "about" && <About data={data} />}
       {page === "contacts" && <Contacts data={data} />}
       <Footer data={data} onPage={goPage} />
+
+      {!adminOpen && <ChatWidget data={data} onPage={goPage} />}
 
       {adminOpen && (
         <AdminPanel

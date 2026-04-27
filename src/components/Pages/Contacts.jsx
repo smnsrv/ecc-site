@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PageHero from "./PageHero.jsx";
+import YandexMapEmbed, { yandexMapCoordinatesFromCompany } from "../YandexMapEmbed.jsx";
 import { getPhoneList } from "../../data.js";
 import { postConsultationToSheets } from "../../integrations/sheetsForm.js";
 import { buildTelegramHtmlMessage } from "../../integrations/telegram.js";
@@ -15,6 +16,7 @@ export default function Contacts({ data }) {
   const u = data.ui;
   const c = data.company;
   const phones = getPhoneList(c);
+  const { lat: mapLat, lng: mapLng } = yandexMapCoordinatesFromCompany(c);
   const [country, setCountry] = useState("");
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -153,7 +155,11 @@ export default function Contacts({ data }) {
               </li>
             </ul>
             <div className="contacts-map">
-              <img src={c.map_img} alt="" />
+              <YandexMapEmbed
+                title={`Карта: ${c.address_full || c.address_short}`}
+                lat={mapLat}
+                lng={mapLng}
+              />
             </div>
           </div>
         </div>

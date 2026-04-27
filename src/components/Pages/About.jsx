@@ -1,4 +1,5 @@
 import PageHero from "./PageHero.jsx";
+import VideoPlayerEmbed from "../VideoPlayerEmbed.jsx";
 
 export default function About({ data }) {
   const u = data.ui;
@@ -17,9 +18,11 @@ export default function About({ data }) {
               </p>
             ))}
           </div>
-          <div className="about-story-img fade-up d1">
-            <img src={c.about_img} alt="" />
-          </div>
+          <VideoPlayerEmbed
+            className="about-story-img fade-up d1"
+            company={c}
+            title="О компании — видео"
+          />
         </div>
       </section>
       {ap.mission ? (

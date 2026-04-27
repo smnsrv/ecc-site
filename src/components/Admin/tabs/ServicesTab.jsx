@@ -15,6 +15,7 @@ export default function ServicesTab({ data, setData }) {
     const newId = maxId + 1;
     const next = {
       id: newId,
+      ico: "📋",
       tag: "Новая",
       name: "Новая услуга",
       desc: "Описание услуги",
@@ -51,6 +52,13 @@ export default function ServicesTab({ data, setData }) {
             </button>
             {isOpen && (
               <div className="admin-accordion-body">
+                <AdminField label="Иконка (emoji)">
+                  <input
+                    value={s.ico || ""}
+                    onChange={(e) => updateSvc(s.id, { ico: e.target.value })}
+                    placeholder="📋"
+                  />
+                </AdminField>
                 <AdminField label="Тег">
                   <input value={s.tag} onChange={(e) => updateSvc(s.id, { tag: e.target.value })} />
                 </AdminField>
