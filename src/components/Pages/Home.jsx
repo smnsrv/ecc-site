@@ -14,7 +14,7 @@ export default function Home({ data, onPage, onOpenService }) {
       <AboutHighlightSection data={data} onPage={onPage} />
       <VideoSection data={data} onPage={onPage} />
       <ClientsSection data={data} />
-      <Process data={data} />
+      <Process data={data} onPage={onPage} />
       <Numbers data={data} />
       <Reviews data={data} />
       <CtaForm data={data} />

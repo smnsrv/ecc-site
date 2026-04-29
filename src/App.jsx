@@ -9,6 +9,7 @@ import Services from "./components/Pages/Services.jsx";
 import About from "./components/Pages/About.jsx";
 import Contacts from "./components/Pages/Contacts.jsx";
 import ServiceTemplate from "./components/Pages/ServiceTemplate.jsx";
+import CertificationStagesPage from "./components/Pages/CertificationStagesPage.jsx";
 import AdminPanel from "./components/Admin/AdminPanel.jsx";
 import ChatWidget from "./components/ChatWidget.jsx";
 
@@ -94,6 +95,7 @@ export default function App() {
           onPage={goPage}
         />
       )}
+      {page === "certification-stages" && <CertificationStagesPage />}
       {page === "about" && <About data={data} />}
       {page === "contacts" && <Contacts data={data} />}
       <Footer data={data} onPage={goPage} />

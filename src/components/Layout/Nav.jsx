@@ -1,6 +1,6 @@
 import { logoUrl } from "../../logoUrl.js";
 
-const PAGES = ["home", "services", "about", "contacts"];
+const PAGES = ["home", "services", "certification-stages", "about", "contacts"];
 
 export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
   const u = data.ui;
@@ -8,6 +8,7 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
   const label = (p) => {
     if (p === "home") return u.nav_home;
     if (p === "services") return u.nav_services;
+    if (p === "certification-stages") return "Этапы";
     if (p === "about") return u.nav_about;
     return u.nav_contacts;
   };
