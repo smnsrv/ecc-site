@@ -659,8 +659,8 @@ textarea:focus-visible {
 
 .services-showcase-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .services-showcase-card {
@@ -668,7 +668,8 @@ textarea:focus-visible {
   background: rgba(255, 255, 255, 0.1);
   color: var(--white);
   border-radius: 14px;
-  padding: 14px;
+  padding: 18px;
+  min-height: 150px;
   text-align: left;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
@@ -692,7 +693,7 @@ textarea:focus-visible {
 .services-showcase-name {
   display: block;
   font-family: var(--h);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 6px;
@@ -1937,6 +1938,40 @@ textarea:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.service-rich-content {
+  display: grid;
+  gap: 16px;
+}
+
+.service-rich-block h3 {
+  margin: 0 0 8px;
+}
+
+.service-rich-block p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.65;
+}
+
+.service-rich-block p + p {
+  margin-top: 10px;
+}
+
+.service-rich-block ul {
+  margin: 10px 0 0;
+}
+
+.service-rich-outro {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.service-rich-sign {
+  margin: 0;
+  color: var(--muted);
 }
 
 /* ——— About page ——— */
