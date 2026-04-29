@@ -15,22 +15,53 @@ export default function ServicesGrid({ data, onPage, home, onOpenService }) {
 
   if (!list.length) return null;
 
-  return (
-    <section className={`section services-section ${home ? "" : "section-tight-top"}`}>
-      {home ? (
-        <div className="container section-head services-section-head">
-          <div className="fade-up">
-            <p className="eyebrow">{u.services_home_eyebrow}</p>
+  if (home) {
+    return (
+      <section
+        className="section services-showcase"
+        style={{
+          backgroundImage: `linear-gradient(100deg, rgba(11, 31, 58, 0.9) 0%, rgba(11, 31, 58, 0.72) 45%, rgba(11, 31, 58, 0.86) 100%), url(${s.img})`,
+        }}
+      >
+        <div className="container services-showcase-inner fade-up">
+          <div className="services-showcase-head">
+            <p className="eyebrow eyebrow-light">{u.services_home_eyebrow}</p>
+            <button type="button" className="btn-ghost services-showcase-btn" onClick={() => onPage("services")}>
+              {u.services_all_link}
+            </button>
           </div>
-          <button
-            type="button"
-            className="btn-ghost fade-up d1"
-            onClick={() => onPage("services")}
-          >
-            {u.services_all_link}
-          </button>
+
+          <h2 className="services-showcase-title">Сертификация и испытания продукции в Узбекистане</h2>
+
+          <div className="services-showcase-grid" role="list">
+            {list.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                role="listitem"
+                className={`services-showcase-card ${active === i ? "is-active" : ""}`}
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                onClick={() => {
+                  setActive(i);
+                  if (onOpenService) onOpenService(item);
+                }}
+              >
+                <span className="services-showcase-ico" aria-hidden>
+                  {ico(item)}
+                </span>
+                <span className="services-showcase-name">{item.name}</span>
+                <span className="services-showcase-desc">{item.desc}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      ) : null}
+      </section>
+    );
+  }
+
+  return (
+    <section className="section services-section">
       <div className="container services-split fade-up">
         <nav className="services-rail" aria-label="Список услуг">
           <div className="services-rail-head">

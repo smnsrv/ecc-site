@@ -1,41 +1,32 @@
-import VideoPlayerEmbed from "../VideoPlayerEmbed.jsx";
-
 export default function VideoSection({ data }) {
-  const v = data.video_section;
-  const gallery = Array.isArray(v.gallery) ? v.gallery : [];
+  const labImage = data.services.find((item) => item.tag === "Лаборатория")?.img || data.company.about_img;
+  const stats = [
+    { val: "4 500", label: "единиц испытательного оборудования" },
+    { val: "11 000", label: "методик испытаний" },
+    { val: "60 000+", label: "образцов проходят испытания" },
+  ];
 
   return (
     <section className="section section-alt">
       <div className="container">
-        <div className="video-grid">
-          <div className="video-primary fade-up">
-            <VideoPlayerEmbed className="" company={data.company} title="Сертификация — видео" />
+        <div className="lab-showcase">
+          <div className="lab-showcase-head fade-up">
+            <h2>Испытательные центры и лаборатории</h2>
           </div>
-          <div className="video-side fade-up d1">
-            {v.gallery_title ? <p className="video-gallery-title">{v.gallery_title}</p> : null}
-            {gallery.length ? (
-              <div className="video-gallery">
-                {gallery.map((item) => (
-                  <article key={item.title} className="video-gallery-item">
-                    <div className="video-gallery-media">
-                      <div className="ratio-16-9">
-                        <iframe
-                          title={item.title}
-                          src={item.video_url || data.company.video_url}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                    <div className="video-gallery-text">
-                      <h3>{item.title}</h3>
-                      <p>{item.desc}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            ) : null}
+
+          <div className="lab-showcase-main">
+            <div className="lab-showcase-media fade-up">
+              <img src={labImage} alt="Испытательная лаборатория" loading="lazy" />
+            </div>
+
+            <aside className="lab-showcase-stats fade-up d1" aria-label="Показатели лаборатории">
+              {stats.map((item) => (
+                <div key={item.label} className="lab-showcase-stat">
+                  <strong>{item.val}</strong>
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </aside>
           </div>
         </div>
       </div>

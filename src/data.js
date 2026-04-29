@@ -174,7 +174,6 @@ export const DEFAULT_DATA = {
   /* Пути без ведущего / — в компоненте добавляется import.meta.env.BASE_URL (деплой в подпапку) */
   clients: [
     { name: "HP", logo: "brand-logos/hp.svg" },
-    { name: "Aiwa", logo: "brand-logos/aiwa.png" },
     { name: "GREE", logo: "brand-logos/gree.svg" },
     { name: "Kärcher", logo: "brand-logos/karcher.png" },
     { name: "Medion", logo: "brand-logos/medion.png" },
