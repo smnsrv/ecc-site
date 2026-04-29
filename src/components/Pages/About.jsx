@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import PageHero from "./PageHero.jsx";
 import VideoPlayerEmbed from "../VideoPlayerEmbed.jsx";
 import { getPhoneList } from "../../data.js";
@@ -7,6 +8,29 @@ export default function About({ data }) {
   const ap = data.about_page;
   const c = data.company;
   const phones = getPhoneList(c);
+  const [activeSection, setActiveSection] = useState("about-overview");
+
+  useEffect(() => {
+    const ids = ["about-overview", "about-directions", "about-structure", "about-offices"];
+    const nodes = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!nodes.length) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target?.id) setActiveSection(visible.target.id);
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0.2, 0.35, 0.5, 0.7],
+      },
+    );
+
+    nodes.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main>
@@ -17,10 +41,18 @@ export default function About({ data }) {
           <aside className="about-sidebar fade-up">
             <p className="about-sidebar-title">О компании</p>
             <nav className="about-sidebar-nav" aria-label="Навигация по разделам">
-              <a href="#about-overview">О нас</a>
-              <a href="#about-directions">Наши направления</a>
-              <a href="#about-structure">Структура компании</a>
-              <a href="#about-offices">Наш офис</a>
+              <a href="#about-overview" className={activeSection === "about-overview" ? "is-active" : ""}>
+                О нас
+              </a>
+              <a href="#about-directions" className={activeSection === "about-directions" ? "is-active" : ""}>
+                Наши направления
+              </a>
+              <a href="#about-structure" className={activeSection === "about-structure" ? "is-active" : ""}>
+                Структура компании
+              </a>
+              <a href="#about-offices" className={activeSection === "about-offices" ? "is-active" : ""}>
+                Наш офис
+              </a>
             </nav>
           </aside>
 
