@@ -6,7 +6,7 @@ function servicesCountRu(n) {
   return `${n} услуг`;
 }
 
-export default function ServicesGrid({ data, onPage, home }) {
+export default function ServicesGrid({ data, onPage, home, onOpenService }) {
   const u = data.ui;
   const list = data.services;
   const [active, setActive] = useState(0);
@@ -46,7 +46,10 @@ export default function ServicesGrid({ data, onPage, home }) {
                   id={`svc-tab-${item.id}`}
                   aria-selected={active === i}
                   className={`services-rail-item ${active === i ? "is-active" : ""}`}
-                  onClick={() => setActive(i)}
+                  onClick={() => {
+                    setActive(i);
+                    if (onOpenService) onOpenService(item);
+                  }}
                 >
                   <span className="services-rail-ico" aria-hidden>
                     {ico(item)}
@@ -57,31 +60,28 @@ export default function ServicesGrid({ data, onPage, home }) {
             ))}
           </ul>
         </nav>
-        {s && (
-          <article
-            className="services-detail"
-            role="tabpanel"
-            id={`svc-panel-${s.id}`}
-            aria-labelledby={`svc-tab-${s.id}`}
-          >
-            <span className="card-tag">{s.tag}</span>
-            <h3 className="services-detail-title">{s.name}</h3>
-            <p className="services-detail-desc">{s.desc}</p>
-            <p className="card-time services-detail-time">{s.time}</p>
-            {s.img ? (
-              <div className="services-detail-img">
-                <img src={s.img} alt="" loading="lazy" />
-              </div>
-            ) : null}
-            <button
-              type="button"
-              className="btn-primary services-detail-cta"
-              onClick={() => onPage("contacts")}
-            >
-              {u.nav_cta}
-            </button>
-          </article>
-        )}
+        <div className="services-center" role="tabpanel" id={`svc-panel-${s.id}`} aria-labelledby={`svc-tab-${s.id}`}>
+          <h3 className="services-center-title">Направления области аккредитации</h3>
+          <div className="services-center-grid">
+            {list.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`services-area-card ${active === i ? "is-active" : ""}`}
+                onClick={() => {
+                  setActive(i);
+                  if (onOpenService) onOpenService(item);
+                }}
+              >
+                <span className="services-area-ico" aria-hidden>
+                  {ico(item)}
+                </span>
+                <span className="services-area-name">{item.name}</span>
+                <span className="services-area-tag">{item.tag}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

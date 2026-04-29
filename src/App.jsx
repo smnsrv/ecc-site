@@ -8,6 +8,7 @@ import Home from "./components/Pages/Home.jsx";
 import Services from "./components/Pages/Services.jsx";
 import About from "./components/Pages/About.jsx";
 import Contacts from "./components/Pages/Contacts.jsx";
+import ServiceTemplate from "./components/Pages/ServiceTemplate.jsx";
 import AdminPanel from "./components/Admin/AdminPanel.jsx";
 import ChatWidget from "./components/ChatWidget.jsx";
 
@@ -22,6 +23,7 @@ function applyDesignTokens(design) {
 export default function App() {
   const { data, setData, persist, reset } = useData();
   const [page, setPage] = useState("home");
+  const [serviceId, setServiceId] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(() => window.location.hash === "#/admin");
 
@@ -51,9 +53,20 @@ export default function App() {
 
   const goPage = useCallback((target) => {
     setPage(target);
+    if (target !== "service") setServiceId(null);
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const openService = useCallback((service) => {
+    if (!service?.id) return;
+    setServiceId(service.id);
+    setPage("service");
+    setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const selectedService = data.services.find((item) => item.id === serviceId) || null;
 
   const closeAdmin = useCallback(() => {
     if (window.location.hash === "#/admin") {
@@ -65,9 +78,22 @@ export default function App() {
   return (
     <div className="app-root">
       <Topbar data={data} />
-      <Nav data={data} page={page} onPage={goPage} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-      {page === "home" && <Home data={data} onPage={goPage} />}
-      {page === "services" && <Services data={data} onPage={goPage} />}
+      <Nav
+        data={data}
+        page={page === "service" ? "services" : page}
+        onPage={goPage}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
+      {page === "home" && <Home data={data} onPage={goPage} onOpenService={openService} />}
+      {page === "services" && <Services data={data} onPage={goPage} onOpenService={openService} />}
+      {page === "service" && (
+        <ServiceTemplate
+          service={selectedService}
+          onBack={() => goPage("services")}
+          onPage={goPage}
+        />
+      )}
       {page === "about" && <About data={data} />}
       {page === "contacts" && <Contacts data={data} />}
       <Footer data={data} onPage={goPage} />

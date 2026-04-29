@@ -17,7 +17,6 @@ export default function Contacts({ data }) {
   const c = data.company;
   const phones = getPhoneList(c);
   const { lat: mapLat, lng: mapLng } = yandexMapCoordinatesFromCompany(c);
-  const [country, setCountry] = useState("");
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [sendError, setSendError] = useState(null);
@@ -28,18 +27,22 @@ export default function Contacts({ data }) {
     setSendError(null);
     setSubmitting(true);
     const fd = new FormData(form);
-    const productType = (fd.get("product") || "").toString();
-    const countryValue = (fd.get("country") || "").toString();
-    const contact = (fd.get("messenger") || "").toString();
-    const email = (fd.get("email") || "").toString();
-    const countryLabel =
-      data.consult_countries.find((o) => o.value === countryValue && !o.disabled)?.label || countryValue;
+    const productType = (fd.get("product") || "").toString().trim();
+    const certTypes = fd.getAll("cert_type").map((v) => String(v).trim()).filter(Boolean);
+    const certTypeLabel = certTypes.join(", ");
+    const contact = (fd.get("messenger") || "").toString().trim();
+    const email = (fd.get("email") || "").toString().trim();
+    if (!productType || !contact || certTypes.length === 0) {
+      setSendError("Заполните тип товара, вид сертификации и контакт (Telegram / WhatsApp).");
+      setSubmitting(false);
+      return;
+    }
     const source = `${window.location.href} | ${u.contacts_form_title}`;
     const dateTime = new Date().toISOString();
 
     const telegramText = buildTelegramHtmlMessage(`Контакты: ${u.contacts_form_title}`, {
       "📦 Тип товара": productType,
-      "🌍 Страна": countryLabel,
+      "🧾 Вид сертификации": certTypeLabel,
       "📱 Telegram / WhatsApp": contact,
       "📧 Email": email,
       "🌐 Источник": source,
@@ -49,14 +52,13 @@ export default function Contacts({ data }) {
       await postConsultationToSheets({
         dateTime,
         productType,
-        country: countryLabel,
+        country: certTypeLabel,
         contact,
         email,
         source,
         telegramText,
       });
       form.reset();
-      setCountry("");
       setSent(true);
     } catch (err) {
       console.log(err);
@@ -89,14 +91,15 @@ export default function Contacts({ data }) {
                   <input name="product" placeholder={data.cta.placeholders.product} required />
                 </label>
                 <label className="field">
-                  <span>{data.cta.fields.country}</span>
-                  <select name="country" value={country} onChange={(e) => setCountry(e.target.value)} required>
-                    {data.consult_countries.map((o, idx) => (
-                      <option key={o.value || `co-${idx}`} value={o.value} disabled={o.disabled}>
-                        {o.label}
-                      </option>
+                  <span>{data.cta.fields.cert_type}</span>
+                  <div className="check-list" role="group" aria-label={data.cta.fields.cert_type}>
+                    {data.cta.cert_types.map((item) => (
+                      <label key={item} className="check-item">
+                        <input type="checkbox" name="cert_type" value={item} />
+                        <span>{item}</span>
+                      </label>
                     ))}
-                  </select>
+                  </div>
                 </label>
                 <label className="field">
                   <span>{data.cta.fields.messenger}</span>

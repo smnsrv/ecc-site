@@ -1,5 +1,5 @@
 /** URL по умолчанию, если в `company.video_url` пусто */
-export const DEFAULT_VIDEO_EMBED = "https://www.youtube.com/embed/M7lc1UVf-VE";
+export const DEFAULT_VIDEO_EMBED = "https://www.youtube.com/embed/izGwDsrQ1eQ";
 
 const IFRAME_ALLOW =
   "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";

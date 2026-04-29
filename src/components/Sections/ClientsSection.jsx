@@ -48,28 +48,14 @@ export default function ClientsSection({ data }) {
         {u.clients_sub ? <p className="s-sub">{u.clients_sub}</p> : null}
       </div>
       <div
-        className="clients-marquee-wrap fade-up d1"
+        className="container clients-grid fade-up d1"
         role="region"
-        aria-roledescription="карусель"
         aria-label={u.clients_title}
         aria-describedby="clients-eyebrow"
       >
-        <div className="clients-marquee">
-          <div className="clients-marquee__inner">
-            <div className="clients-marquee__track">
-              <div className="clients-marquee__group">
-                {items.map((c) => (
-                  <ClientLogoItem key={c.name} c={c} />
-                ))}
-              </div>
-              <div className="clients-marquee__group clients-marquee__group--dup" aria-hidden="true">
-                {items.map((c) => (
-                  <ClientLogoItem key={`${c.name}-dup`} c={c} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {items.map((c) => (
+          <ClientLogoItem key={c.name} c={c} />
+        ))}
       </div>
       <div className="container flags-row fade-up d2">
         {data.client_countries.map((c) => (

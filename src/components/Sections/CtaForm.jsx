@@ -8,7 +8,6 @@ export default function CtaForm({ data }) {
   const phones = getPhoneList(co);
   const u = data.ui;
   const [sent, setSent] = useState(false);
-  const [country, setCountry] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [sendError, setSendError] = useState(null);
 
@@ -19,20 +18,19 @@ export default function CtaForm({ data }) {
     setSubmitting(true);
     const fd = new FormData(form);
     const product = (fd.get("product") || "").toString().trim();
-    const countryValue = (fd.get("country") || "").toString();
+    const certTypes = fd.getAll("cert_type").map((v) => String(v).trim()).filter(Boolean);
+    const certTypeLabel = certTypes.join(", ");
     const contact = (fd.get("messenger") || "").toString().trim();
     const email = (fd.get("email") || "").toString().trim();
-    const countryLabel =
-      data.consult_countries.find((o) => o.value === countryValue && !o.disabled)?.label || countryValue;
-    if (!product || !contact) {
-      setSendError("Заполните тип товара и контакт (Telegram / WhatsApp).");
+    if (!product || !contact || certTypes.length === 0) {
+      setSendError("Заполните тип товара, вид сертификации и контакт (Telegram / WhatsApp).");
       setSubmitting(false);
       return;
     }
     try {
       const ok = await sendToTelegram("Главная (быстрая заявка)", {
         "📦 Тип товара": product,
-        "🌍 Страна": countryLabel,
+        "🧾 Вид сертификации": certTypeLabel,
         "📱 Telegram / WhatsApp": contact,
         "📧 Email": email,
       });
@@ -41,7 +39,6 @@ export default function CtaForm({ data }) {
         return;
       }
       form.reset();
-      setCountry("");
       setSent(true);
     } catch (err) {
       console.log(err);
@@ -62,6 +59,9 @@ export default function CtaForm({ data }) {
               <li key={b}>{b}</li>
             ))}
           </ul>
+          <p className="cta-workhours">
+            <strong>{u.contacts_labels_hours}</strong> {co.workhours}
+          </p>
           <p className="cta-phone-note">{c.phone_note}</p>
           <div className="cta-phones" role="group" aria-label={c.phone_note.replace(":", "").trim()}>
             {phones.map((p) => (
@@ -81,14 +81,15 @@ export default function CtaForm({ data }) {
                   <input name="product" placeholder={c.placeholders.product} required />
                 </label>
                 <label className="field">
-                  <span>{c.fields.country}</span>
-                  <select name="country" value={country} onChange={(e) => setCountry(e.target.value)} required>
-                    {data.consult_countries.map((o, idx) => (
-                      <option key={o.value || `c-${idx}`} value={o.value} disabled={o.disabled}>
-                        {o.label}
-                      </option>
+                  <span>{c.fields.cert_type}</span>
+                  <div className="check-list" role="group" aria-label={c.fields.cert_type}>
+                    {c.cert_types.map((item) => (
+                      <label key={item} className="check-item">
+                        <input type="checkbox" name="cert_type" value={item} />
+                        <span>{item}</span>
+                      </label>
                     ))}
-                  </select>
+                  </div>
                 </label>
                 <label className="field">
                   <span>{c.fields.messenger}</span>

@@ -93,10 +93,11 @@ export async function sendToTelegram(formName, fields) {
 
   const origin = typeof window !== "undefined" && window.location?.href ? window.location.href : "";
   const source = [origin, formName].filter(Boolean).join(" | ") || "ECC сайт";
+  const certTypeFromForm = String(fields["🧾 Вид сертификации"] ?? "").trim();
   const sheetRow = {
     dateTime: new Date().toISOString(),
     productType: String(fields["📦 Тип товара"] ?? "").trim(),
-    country: String(fields["🌍 Страна"] ?? "").trim(),
+    country: certTypeFromForm || String(fields["🌍 Страна"] ?? "").trim(),
     contact: String(fields["📱 Telegram / WhatsApp"] ?? "").trim(),
     email: String(fields["📧 Email"] ?? "").trim(),
     source,
