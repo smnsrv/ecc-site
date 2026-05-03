@@ -6,6 +6,7 @@ import Nav from "./components/Layout/Nav.jsx";
 import Footer from "./components/Layout/Footer.jsx";
 import Home from "./components/Pages/Home.jsx";
 import Services from "./components/Pages/Services.jsx";
+import WeCertifyPage from "./components/Pages/WeCertifyPage.jsx";
 import About from "./components/Pages/About.jsx";
 import Contacts from "./components/Pages/Contacts.jsx";
 import ServiceTemplate from "./components/Pages/ServiceTemplate.jsx";
@@ -88,6 +89,7 @@ export default function App() {
       />
       {page === "home" && <Home data={data} onPage={goPage} onOpenService={openService} />}
       {page === "services" && <Services data={data} onPage={goPage} onOpenService={openService} />}
+      {page === "we-certify" && <WeCertifyPage data={data} onPage={goPage} />}
       {page === "service" && (
         <ServiceTemplate
           service={selectedService}

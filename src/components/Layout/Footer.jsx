@@ -48,6 +48,11 @@ export default function Footer({ data, onPage }) {
               </button>
             </li>
             <li>
+              <button type="button" className="footer-link" onClick={() => onPage("we-certify")}>
+                {u.nav_we_certify}
+              </button>
+            </li>
+            <li>
               <button type="button" className="footer-link" onClick={() => onPage("contacts")}>
                 {u.footer_cta_contacts}
               </button>

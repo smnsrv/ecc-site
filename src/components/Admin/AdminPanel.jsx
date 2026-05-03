@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { testTelegram } from "../../integrations/telegram.js";
 import GeneralTab from "./tabs/GeneralTab.jsx";
 import ServicesTab from "./tabs/ServicesTab.jsx";
+import WeCertifyTab from "./tabs/WeCertifyTab.jsx";
 import HeroTab from "./tabs/HeroTab.jsx";
 import ContactsTab from "./tabs/ContactsTab.jsx";
 import DesignTab from "./tabs/DesignTab.jsx";
@@ -9,6 +10,7 @@ import DesignTab from "./tabs/DesignTab.jsx";
 const TABS = [
   { id: "general", Tab: GeneralTab },
   { id: "services", Tab: ServicesTab },
+  { id: "we_certify", Tab: WeCertifyTab },
   { id: "hero", Tab: HeroTab },
   { id: "contacts", Tab: ContactsTab },
   { id: "design", Tab: DesignTab },
