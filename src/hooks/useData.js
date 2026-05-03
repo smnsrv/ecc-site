@@ -69,7 +69,8 @@ export function loadData() {
       delete merged.we_certify_household_article;
     }
     return merged;
-  } catch {
+  } catch (e) {
+    console.error("[useData] Не удалось прочитать localStorage (ecc_cms_data_react):", e);
     return structuredClone(DEFAULT_DATA);
   }
 }

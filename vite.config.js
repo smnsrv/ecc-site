@@ -22,11 +22,12 @@ export default defineConfig(({ command }) => {
             url: origin + "/",
             logo,
           };
+          const ld = JSON.stringify(org).replace(/</g, "\\u003c");
           const inj = `    <link rel="canonical" href="${origin}/" />
     <meta property="og:url" content="${origin}/" />
     <meta property="og:image" content="${logo}" />
     <meta name="twitter:image" content="${logo}" />
-    <script type="application/ld+json">${JSON.stringify(org)}<\/script>
+    <script type="application/ld+json">${ld}</script>
 `;
           return html.replace(/<\/head>/, inj + "  </head>");
         },

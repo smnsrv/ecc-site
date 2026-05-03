@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackGaEvent } from "../../analytics.js";
 import PageHero from "./PageHero.jsx";
 import YandexMapEmbed, { yandexMapCoordinatesFromCompany } from "../YandexMapEmbed.jsx";
 import { getPhoneList } from "../../data.js";
@@ -60,16 +61,21 @@ export default function Contacts({ data }) {
       });
       form.reset();
       setSent(true);
+      trackGaEvent("generate_lead", { form_id: "contacts_page", method: "gas" });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       const code = err.sheetsConfigCode;
       if (code === "SHEETS_PLACEHOLDER") {
+        trackGaEvent("form_submit_error", { form_id: "contacts_page", reason: "config_placeholder" });
         setSendError(ERR_CONFIG);
       } else if (code === "SHEETS_NOT_HTTPS") {
+        trackGaEvent("form_submit_error", { form_id: "contacts_page", reason: "config_https" });
         setSendError(ERR_HTTPS);
       } else if (code === "SHEETS_NOT_SCRIPT") {
+        trackGaEvent("form_submit_error", { form_id: "contacts_page", reason: "config_url" });
         setSendError(ERR_NOT_GAS);
       } else {
+        trackGaEvent("form_submit_error", { form_id: "contacts_page", reason: "request_failed" });
         setSendError(ERROR_MSG);
       }
     } finally {
@@ -79,7 +85,12 @@ export default function Contacts({ data }) {
 
   return (
     <main>
-      <PageHero eyebrow={u.page_contacts_eyebrow} title={u.page_contacts_title} sub={u.page_contacts_sub} />
+      <PageHero
+        eyebrow={u.page_contacts_eyebrow}
+        title={u.page_contacts_title}
+        sub={u.page_contacts_sub}
+        contextNote={u.regulatory_context_line}
+      />
       <section className="section">
         <div className="container contacts-grid">
           <div className="contacts-card fade-up">

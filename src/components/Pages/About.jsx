@@ -34,7 +34,12 @@ export default function About({ data }) {
 
   return (
     <main>
-      <PageHero eyebrow={u.page_about_eyebrow} title={u.page_about_title} sub={u.page_about_sub} />
+      <PageHero
+        eyebrow={u.page_about_eyebrow}
+        title={u.page_about_title}
+        sub={u.page_about_sub}
+        contextNote={u.regulatory_context_line}
+      />
 
       <section className="section section-alt">
         <div className="container about-layout">

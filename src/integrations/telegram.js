@@ -1,4 +1,5 @@
 // Prod: Telegram через GAS (CORS). Dev: VITE_TG_* + Vite proxy /_telegram-api (см. vite.config.js).
+import { withExponentialBackoff } from "../lib/retry.js";
 import { postJsonToGoogleScript, getSheetsUrlConfigError } from "./sheetsForm.js";
 
 const TG_TOKEN = import.meta.env.VITE_TG_TOKEN ?? "";
@@ -53,24 +54,47 @@ export function buildTelegramHtmlMessage(formName, fields) {
   return lines.join("\n");
 }
 
+async function sendOneDevMessage(chat_id, telegramText) {
+  const res = await fetch(`/_telegram-api/bot${TG_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id,
+      text: telegramText + devRecipientFooterLine(chat_id),
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    const err = new Error(`Telegram HTTP ${res.status}`);
+    err.httpStatus = res.status;
+    throw err;
+  }
+  if (!data.ok) {
+    console.error("Telegram (dev proxy):", chat_id, data);
+    return false;
+  }
+  return true;
+}
+
 export async function sendMessageViaDevProxy(telegramText) {
   if (!isTelegramConfigured()) return false;
   const ids = parseDevChatIds();
   let allOk = true;
   for (const chat_id of ids) {
-    const res = await fetch(`/_telegram-api/bot${TG_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id,
-        text: telegramText + devRecipientFooterLine(chat_id),
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-      }),
-    });
-    const data = await res.json();
-    if (!data.ok) {
-      console.error("Telegram (dev proxy):", chat_id, data);
+    try {
+      const ok = await withExponentialBackoff(() => sendOneDevMessage(chat_id, telegramText), {
+        maxAttempts: 3,
+        shouldRetry: (err) => {
+          const st = err && typeof err === "object" && "httpStatus" in err ? err.httpStatus : null;
+          if (st != null && st >= 400 && st < 500 && st !== 429) return false;
+          return true;
+        },
+      });
+      if (!ok) allOk = false;
+    } catch (e) {
+      console.error("Telegram (dev proxy) после повторов:", chat_id, e);
       allOk = false;
     }
   }

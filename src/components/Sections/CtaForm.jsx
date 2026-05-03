@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackGaEvent } from "../../analytics.js";
 import { getPhoneList } from "../../data.js";
 import { sendToTelegram } from "../../integrations/telegram.js";
 
@@ -35,13 +36,16 @@ export default function CtaForm({ data }) {
         "📧 Email": email,
       });
       if (!ok) {
+        trackGaEvent("form_submit_error", { form_id: "cta_home", reason: "telegram_or_gas_failed" });
         setSendError(`Не удалось отправить. Напишите напрямую: @${co.telegram}`);
         return;
       }
       form.reset();
       setSent(true);
+      trackGaEvent("generate_lead", { form_id: "cta_home", method: "telegram_gas" });
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      trackGaEvent("form_submit_error", { form_id: "cta_home", reason: "exception" });
       setSendError("Ошибка отправки. Попробуйте позже.");
     } finally {
       setSubmitting(false);

@@ -1,57 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useFadeUp } from "../../hooks/useFadeUp.js";
+import { useEffect } from "react";
 import PageHero from "./PageHero.jsx";
 import WeCertifyArticleBody from "../Sections/WeCertifyArticleBody.jsx";
 import WeCertifySection from "../Sections/WeCertifySection.jsx";
 
-function parseWeCertifyHash(articlesObj) {
-  const raw = (window.location.hash || "").replace(/^#/, "");
-  if (!raw || !articlesObj || typeof articlesObj !== "object") return null;
-  if (raw === "we-certify-household" && articlesObj.household) return "household";
-  if (raw.startsWith("we-certify-article-")) {
-    const key = raw.slice("we-certify-article-".length);
-    return articlesObj[key] ? key : null;
-  }
-  return null;
-}
-
-export default function WeCertifyPage({ data, onPage }) {
+export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenArticle, onCloseArticle }) {
   const u = data.ui;
   const articles = data.we_certify_articles && typeof data.we_certify_articles === "object" ? data.we_certify_articles : {};
-  const [detailArticleKey, setDetailArticleKey] = useState(() => parseWeCertifyHash(articles));
-
-  const direction = useMemo(
-    () => data.we_certify?.find((item) => item.articleKey === detailArticleKey) ?? null,
-    [data.we_certify, detailArticleKey],
-  );
+  const direction =
+    detailArticleKey && Array.isArray(data.we_certify)
+      ? data.we_certify.find((item) => item.articleKey === detailArticleKey) ?? null
+      : null;
   const article = detailArticleKey ? articles[detailArticleKey] : null;
-
-  /** Без этого при смене list→detail класс .visible не вешается: в App deps не меняется page */
-  useFadeUp([detailArticleKey]);
-
-  const openDetail = useCallback(
-    (key) => {
-      setDetailArticleKey(key);
-      window.history.replaceState(null, "", `#we-certify-article-${key}`);
-    },
-    [setDetailArticleKey],
-  );
-
-  const closeDetail = useCallback(() => {
-    setDetailArticleKey(null);
-    const base = `${window.location.pathname}${window.location.search}`;
-    window.history.replaceState(null, "", base);
-  }, []);
-
-  useEffect(() => {
-    const onHash = () => {
-      const articlesObj =
-        data.we_certify_articles && typeof data.we_certify_articles === "object" ? data.we_certify_articles : {};
-      setDetailArticleKey(parseWeCertifyHash(articlesObj));
-    };
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, [data.we_certify_articles]);
 
   useEffect(() => {
     if (detailArticleKey) {
@@ -63,32 +22,47 @@ export default function WeCertifyPage({ data, onPage }) {
     if (!article || !direction) {
       return (
         <main>
-          <section className="section">
-            <div className="container fade-up">
-              <button type="button" className="btn-ghost" onClick={closeDetail}>
-                ← {u.we_certify_back}
-              </button>
-              <p className="s-sub" style={{ marginTop: 16 }}>
-                Материал для этого направления пока не добавлен.
-              </p>
-            </div>
-          </section>
+          <PageHero
+            heroClassName="we-certify-detail-hero"
+            breadcrumbAriaLabel={u.breadcrumb_aria}
+            breadcrumbs={[
+              { label: u.nav_we_certify, onClick: onCloseArticle },
+              { label: u.page_we_certify_title },
+            ]}
+            breadcrumbSchema={[
+              { name: u.nav_we_certify, path: "#/we-certify" },
+              { name: u.page_we_certify_title, path: "#/we-certify" },
+            ]}
+            eyebrow={u.page_we_certify_eyebrow}
+            title={u.page_we_certify_title}
+            sub="Материал для этого направления пока не добавлен."
+            onBack={onCloseArticle}
+            backLabel={`← ${u.we_certify_back}`}
+          />
         </main>
       );
     }
 
+    const detailTitle = direction.title;
+    const detailHash = `#/we-certify/${detailArticleKey}`;
+
     return (
       <main>
-        <section className="page-hero we-certify-detail-hero">
-          <div className="container fade-up">
-            <button type="button" className="btn-ghost we-certify-detail-back" onClick={closeDetail}>
-              ← {u.we_certify_back}
-            </button>
-            <p className="eyebrow">{u.page_we_certify_eyebrow}</p>
-            <h1 className="page-hero-title">{direction.title}</h1>
-            <p className="s-sub page-hero-sub">{direction.text}</p>
-          </div>
-        </section>
+        <PageHero
+          heroClassName="we-certify-detail-hero"
+          breadcrumbAriaLabel={u.breadcrumb_aria}
+          breadcrumbs={[
+            { label: u.nav_we_certify, onClick: onCloseArticle },
+            { label: detailTitle },
+          ]}
+          breadcrumbSchema={[
+            { name: u.nav_we_certify, path: "#/we-certify" },
+            { name: detailTitle, path: detailHash },
+          ]}
+          eyebrow={u.page_we_certify_eyebrow}
+          title={detailTitle}
+          sub={direction.text}
+        />
         <section className="section we-certify-section we-certify-section--detail">
           <div className="container fade-up">
             <WeCertifyArticleBody article={article} anchorId={`we-certify-article-${detailArticleKey}`} />
@@ -115,8 +89,22 @@ export default function WeCertifyPage({ data, onPage }) {
 
   return (
     <main>
-      <PageHero eyebrow={u.page_we_certify_eyebrow} title={u.page_we_certify_title} sub={u.page_we_certify_sub} />
-      <WeCertifySection data={data} onPage={onPage} showHead={false} onOpenDetail={openDetail} />
+      <PageHero
+        breadcrumbAriaLabel={u.breadcrumb_aria}
+        breadcrumbs={[
+          { label: u.nav_services, onClick: () => onPage("services") },
+          { label: u.page_we_certify_title },
+        ]}
+        breadcrumbSchema={[
+          { name: u.nav_services, path: "#/services" },
+          { name: u.page_we_certify_title, path: "#/we-certify" },
+        ]}
+        eyebrow={u.page_we_certify_eyebrow}
+        title={u.page_we_certify_title}
+        sub={u.page_we_certify_sub}
+        contextNote={u.regulatory_context_line}
+      />
+      <WeCertifySection data={data} onPage={onPage} showHead={false} onOpenDetail={onOpenArticle} />
     </main>
   );
 }

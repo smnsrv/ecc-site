@@ -15,7 +15,7 @@ export default function Reviews({ data }) {
             </div>
             <p className="review-text">{r.text}</p>
             <div className="review-author">
-              <img src={r.avatar} alt="" className="review-avatar" />
+              <img src={r.avatar} alt="" className="review-avatar" loading="lazy" decoding="async" />
               <div>
                 <strong>
                   {r.name} {r.flag}

@@ -3,11 +3,11 @@ const id = import.meta.env.VITE_GA_MEASUREMENT_ID;
 if (typeof id === "string" && id.trim().startsWith("G-")) {
   const mid = id.trim();
   window.dataLayer = window.dataLayer || [];
-  // как в официальном сниппете gtag
-  // eslint-disable-next-line prefer-rest-params, func-names
-  function gtag() {
+  // как в официальном сниппете gtag (в корне модуля для ESLint)
+  const gtag = function () {
     window.dataLayer.push(arguments);
-  }
+  };
+  window.gtag = gtag;
   gtag("js", new Date());
   gtag("config", mid);
   const s = document.createElement("script");

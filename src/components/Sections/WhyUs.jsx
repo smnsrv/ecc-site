@@ -5,7 +5,7 @@ export default function WhyUs({ data }) {
     <section className="section section-alt">
       <div className="container why-grid">
         <div className="why-visual fade-up">
-          <img src={img} alt="" />
+          <img src={img} alt="" loading="lazy" decoding="async" />
           <div className="why-badge">{u.why_badge}</div>
         </div>
         <div className="why-copy">

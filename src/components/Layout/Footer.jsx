@@ -1,7 +1,7 @@
 import { getPhoneList } from "../../data.js";
 import { logoUrl } from "../../logoUrl.js";
 
-export default function Footer({ data, onPage }) {
+export default function Footer({ data, onPage, onOpenService }) {
   const c = data.company;
   const u = data.ui;
   const phones = getPhoneList(c);
@@ -17,6 +17,7 @@ export default function Footer({ data, onPage }) {
               alt={c.name}
               width={520}
               height={120}
+              loading="lazy"
               decoding="async"
             />
           </div>
@@ -27,7 +28,13 @@ export default function Footer({ data, onPage }) {
           <ul>
             {data.services.map((s) => (
               <li key={s.id}>
-                <button type="button" className="footer-link" onClick={() => onPage("services")}>
+                <button
+                  type="button"
+                  className="footer-link"
+                  onClick={() =>
+                    typeof onOpenService === "function" ? onOpenService(s) : onPage("services")
+                  }
+                >
                   {s.name}
                 </button>
               </li>

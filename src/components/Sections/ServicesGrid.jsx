@@ -65,6 +65,7 @@ export default function ServicesGrid({ data, onPage, home, onOpenService }) {
           </div>
 
           <h2 className="services-showcase-title">Сертификация и испытания продукции в Узбекистане</h2>
+          {data.hero?.usp_one_liner ? <p className="services-showcase-usp">{data.hero.usp_one_liner}</p> : null}
 
           <div className="services-showcase-grid" role="list">
             {list.map((item, i) => (

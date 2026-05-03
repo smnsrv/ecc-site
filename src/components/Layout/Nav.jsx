@@ -38,6 +38,7 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
               key={p}
               type="button"
               className={`nav-link ${page === p ? "active" : ""}`}
+              aria-current={page === p ? "page" : undefined}
               onClick={() => go(p)}
             >
               {label(p)}
@@ -61,7 +62,13 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
       </div>
       <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
         {PAGES.map((p) => (
-          <button key={p} type="button" className={`nav-link ${page === p ? "active" : ""}`} onClick={() => go(p)}>
+          <button
+            key={p}
+            type="button"
+            className={`nav-link ${page === p ? "active" : ""}`}
+            aria-current={page === p ? "page" : undefined}
+            onClick={() => go(p)}
+          >
             {label(p)}
           </button>
         ))}

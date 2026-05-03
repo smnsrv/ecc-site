@@ -400,7 +400,13 @@ export const TECHNICAL_REGULATIONS_CONTENT = {
     "Нужна помощь с классификацией по ТН ВЭД, выбором регламента или признанием иностранных документов? Оставьте заявку — подскажем опорные нормы и маршрут оформления.",
 };
 
-export default function ServiceTemplate({ service, onBack, onPage }) {
+export default function ServiceTemplate({
+  service,
+  onBack,
+  onPage,
+  breadcrumbParentLabel = "Услуги",
+  breadcrumbAriaLabel = "Хлебные крошки",
+}) {
   if (!service) return null;
   const isDeclaration = service.name === "Декларирование";
   const isConsultation = service.name === "Консультация";
@@ -425,12 +431,24 @@ export default function ServiceTemplate({ service, onBack, onPage }) {
                 ? TECHNICAL_REGULATIONS_CONTENT
                 : null;
 
+  const titleText = rich ? rich.title : service.name;
+  const breadcrumbs = [
+    { label: breadcrumbParentLabel, onClick: onBack },
+    { label: titleText },
+  ];
+  const breadcrumbSchema = [
+    { name: breadcrumbParentLabel, path: "#/services" },
+    { name: titleText, path: `#/service/${service.id}` },
+  ];
+
   return (
     <main>
       <PageHero
-        onBack={onBack}
+        breadcrumbs={breadcrumbs}
+        breadcrumbSchema={breadcrumbSchema}
+        breadcrumbAriaLabel={breadcrumbAriaLabel}
         eyebrow="Услуга"
-        title={rich ? rich.title : service.name}
+        title={titleText}
         sub={
           isDeclaration
             ? "Полная процедура оформления декларации: от анализа документов до регистрации в государственном реестре."
@@ -491,9 +509,6 @@ export default function ServiceTemplate({ service, onBack, onPage }) {
             )}
 
             <div className="service-template-actions">
-              <button type="button" className="btn-ghost" onClick={onBack}>
-                ← Назад к услугам
-              </button>
               <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
                 Оставить заявку
               </button>

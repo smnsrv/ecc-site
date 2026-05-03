@@ -4,6 +4,15 @@ export function useFadeUp(deps) {
   useEffect(() => {
     const nodes = document.querySelectorAll(".fade-up");
     if (!nodes.length) return undefined;
+
+    const reduceMotion =
+      typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      nodes.forEach((n) => n.classList.add("visible"));
+      return undefined;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((en) => {

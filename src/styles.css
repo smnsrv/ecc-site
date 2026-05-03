@@ -4,7 +4,7 @@
   --blue: #1854c4;
   --blue-l: #3d6fd4;
   --sky: #eef4ff;
-  --accent: #e85d04;
+  --accent: #c2410c;
   --green: #059669;
   --text: #111827;
   --muted: #6b7280;
@@ -242,6 +242,14 @@ textarea:focus-visible {
 }
 .fade-up.d4 {
   transition-delay: 320ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ——— Topbar ——— */
@@ -655,6 +663,14 @@ textarea:focus-visible {
   letter-spacing: -0.03em;
   color: var(--white);
   text-wrap: balance;
+}
+
+.services-showcase-usp {
+  margin: -12px 0 24px;
+  max-width: 72ch;
+  font-size: clamp(15px, 1.35vw, 17px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .services-showcase-grid {
@@ -1779,6 +1795,129 @@ textarea:focus-visible {
   color: var(--muted);
 }
 
+/* ——— Кейсы ——— */
+.cases-section {
+  background: var(--light);
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.case-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 22px 20px;
+  box-shadow: var(--sh);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 100%;
+}
+
+.case-card-sector {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--blue);
+}
+
+.case-card h3 {
+  margin: 0;
+  font-family: var(--h);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.35;
+}
+
+.case-card p {
+  margin: 0;
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.case-card-time {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ——— FAQ ——— */
+.faq-section {
+  background: var(--white);
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 18px;
+  font-family: var(--h);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  font-weight: 400;
+  color: var(--blue);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.faq-item[open] summary::after {
+  content: "–";
+}
+
+.faq-item summary:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(24, 84, 196, 0.35);
+}
+
+.faq-answer {
+  margin: 0;
+  padding: 0 18px 18px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #374151;
+}
+
+@media (max-width: 900px) {
+  .cases-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ——— CTA ——— */
 .cta-section {
   background: #123a66;
@@ -1950,6 +2089,67 @@ textarea:focus-visible {
 
 .page-hero-back {
   margin-bottom: 16px;
+}
+
+.page-breadcrumbs {
+  margin: 0 0 14px;
+}
+
+.page-breadcrumbs-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.page-breadcrumbs-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.page-breadcrumbs-link {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--blue);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.page-breadcrumbs-link:hover {
+  color: var(--navy);
+}
+
+.page-breadcrumbs-text {
+  color: var(--muted);
+}
+
+.page-breadcrumbs-current {
+  font-weight: 400;
+  color: var(--text);
+  max-width: min(100%, 72ch);
+}
+
+.page-breadcrumbs-sep {
+  color: #d1d5db;
+  user-select: none;
+}
+
+.page-hero-context {
+  margin: 14px 0 0;
+  max-width: 72ch;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #4b5563;
 }
 
 /* ——— Мы сертифицируем (сетка направлений, страница услуг) ——— */
