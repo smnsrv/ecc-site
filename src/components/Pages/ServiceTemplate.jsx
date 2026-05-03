@@ -402,10 +402,13 @@ export const TECHNICAL_REGULATIONS_CONTENT = {
 
 export default function ServiceTemplate({
   service,
+  services = [],
+  onOpenService,
   onBack,
   onPage,
   breadcrumbParentLabel = "Услуги",
   breadcrumbAriaLabel = "Хлебные крошки",
+  allServicesLinkLabel = "Все услуги",
 }) {
   if (!service) return null;
   const isDeclaration = service.name === "Декларирование";
@@ -468,8 +471,42 @@ export default function ServiceTemplate({
         }
       />
       <section className="section">
-        <div className="container service-template">
-          <div className="service-template-main fade-up">
+        <div className="container service-template-shell fade-up">
+          <aside className="service-template-nav" aria-label="Быстрая навигация по услугам">
+            <p className="service-template-nav-title">{breadcrumbParentLabel}</p>
+            <ul className="service-template-nav-list">
+              {services.map((s) => {
+                const active = s.id === service.id;
+                return (
+                  <li key={s.id}>
+                    {active ? (
+                      <span className="service-template-nav-item is-active" aria-current="page">
+                        <span className="service-template-nav-ico" aria-hidden>
+                          {s.ico || "📋"}
+                        </span>
+                        <span className="service-template-nav-name">{s.name}</span>
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        className="service-template-nav-item"
+                        onClick={() => onOpenService?.(s)}
+                      >
+                        <span className="service-template-nav-ico" aria-hidden>
+                          {s.ico || "📋"}
+                        </span>
+                        <span className="service-template-nav-name">{s.name}</span>
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            <button type="button" className="service-template-nav-overview" onClick={onBack}>
+              {allServicesLinkLabel}
+            </button>
+          </aside>
+          <div className="service-template-main">
             <span className="card-tag">{service.tag}</span>
             {rich ? (
               <div className="service-rich-content">

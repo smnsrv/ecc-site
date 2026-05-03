@@ -140,10 +140,13 @@ export default function App() {
       {page === "service" && (
         <ServiceTemplate
           service={selectedService}
+          services={data.services}
+          onOpenService={openService}
           onBack={() => goPage("services")}
           onPage={goPage}
           breadcrumbParentLabel={data.ui.nav_services}
           breadcrumbAriaLabel={data.ui.breadcrumb_aria}
+          allServicesLinkLabel={data.ui.services_all_link}
         />
       )}
       {page === "certification-stages" && <CertificationStagesPage data={data} />}
