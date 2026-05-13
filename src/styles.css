@@ -14,7 +14,7 @@
   --h: "Golos Text", system-ui, sans-serif;
   --b: "Mulish", system-ui, sans-serif;
   --r: 12px;
-  --max: 1240px;
+  --max: 1480px;
   --sh: 0 8px 26px rgba(15, 23, 42, 0.07);
   --sh-l: 0 18px 50px rgba(15, 23, 42, 0.14);
 }
@@ -2191,7 +2191,7 @@ textarea:focus-visible {
 }
 
 .page-hero-sub {
-  max-width: 640px;
+  max-width: min(100%, 90ch);
 }
 
 .page-hero-back {
@@ -2284,7 +2284,8 @@ textarea:focus-visible {
 }
 
 .we-certify-inner {
-  max-width: 1120px;
+  max-width: none;
+  width: 100%;
 }
 
 .we-certify-head {
@@ -2313,8 +2314,8 @@ textarea:focus-visible {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2.2vw, 22px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 32px);
   align-items: stretch;
 }
 
@@ -2325,17 +2326,17 @@ textarea:focus-visible {
 
 .we-certify-card {
   margin: 0;
-  padding: clamp(20px, 2.4vw, 26px);
-  border-radius: 16px;
+  padding: clamp(24px, 3vw, 34px);
+  border-radius: 18px;
   border: 1px solid rgba(24, 84, 196, 0.28);
   background: var(--white);
   box-shadow: 0 1px 0 rgba(11, 31, 58, 0.04);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   flex: 1;
-  min-height: 0;
+  min-height: 380px;
   width: 100%;
   box-sizing: border-box;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
@@ -2394,19 +2395,30 @@ button.we-certify-card--clickable {
 .we-certify-name {
   margin: 0;
   font-family: var(--h);
-  font-size: clamp(17px, 1.5vw, 19px);
+  font-size: clamp(18px, 1.65vw, 20px);
   font-weight: 700;
   color: var(--navy);
-  line-height: 1.25;
+  line-height: 1.28;
+  min-height: calc(1.28em * 3);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
 .we-certify-text {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: clamp(15px, 1.1vw, 16px);
+  line-height: 1.65;
   color: #4b5563;
   flex: 1;
-  min-height: 0;
+  min-height: calc(1.65em * 5);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
 }
 
 .we-certify-actions {
@@ -2555,9 +2567,21 @@ button.we-certify-card--clickable {
   line-height: 1.65;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1320px) {
+  .we-certify-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
   .we-certify-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .we-certify-card {
+    min-height: 360px;
   }
 }
 
@@ -2565,15 +2589,24 @@ button.we-certify-card--clickable {
   .we-certify-grid {
     grid-template-columns: 1fr;
   }
+
+  .we-certify-card {
+    min-height: 320px;
+  }
+
+  .we-certify-text {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    min-height: calc(1.65em * 4);
+  }
 }
 
 /* ——— Service template page ——— */
 .service-template-shell {
   display: grid;
-  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 44px);
+  grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
   align-items: start;
-  max-width: 1120px;
 }
 
 .service-template-nav {
