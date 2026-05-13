@@ -9,7 +9,11 @@ export function computeDocumentTitle(data, { page, serviceId, weArticleKey }) {
   if (page === "certification-stages") return (pt && pt.certification_stages) || `Этапы сертификации — ${suffix}`;
   if (page === "we-certify") {
     if (weArticleKey) {
-      const dir = Array.isArray(data.we_certify) ? data.we_certify.find((d) => d.articleKey === weArticleKey) : null;
+      const dirs = [
+        ...(Array.isArray(data.we_certify) ? data.we_certify : []),
+        ...(Array.isArray(data.we_certify_by_industry) ? data.we_certify_by_industry : []),
+      ];
+      const dir = dirs.find((d) => d.articleKey === weArticleKey);
       if (dir?.title) return `${dir.title} — ${suffix}`;
     }
     return (pt && pt.we_certify) || `Мы сертифицируем — ${suffix}`;

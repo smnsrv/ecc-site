@@ -13,24 +13,10 @@ function scrollToWeCertifyCard(articleKey) {
   window.setTimeout(() => root.classList.remove("we-certify-grid-cell--pulse"), 1000);
 }
 
-export default function WeCertifySection({
-  data,
-  onPage,
-  showHead = true,
-  onOpenDetail,
-}) {
-  const u = data.ui;
-  const items = data.we_certify;
+function WeCertifyCardsGrid({ items, onOpenDetail, ui }) {
   if (!Array.isArray(items) || !items.length) return null;
 
-  const useSidebar = Boolean(onOpenDetail);
-  const sectionLabelledBy = showHead
-    ? "we-certify-title"
-    : useSidebar
-      ? "we-certify-nav-heading"
-      : "we-certify-directions-label";
-
-  const grid = (
+  return (
     <ul
       className={`we-certify-grid${items.length === 1 ? " we-certify-grid--solo" : ""}`}
       role="list"
@@ -46,11 +32,11 @@ export default function WeCertifySection({
             </span>
             <h3 className="we-certify-name">{item.title}</h3>
             <p className="we-certify-text">{item.text}</p>
-            {hasDetail ? <span className="we-certify-card-hint">{u.we_certify_open_hint}</span> : null}
+            {hasDetail ? <span className="we-certify-card-hint">{ui.we_certify_open_hint}</span> : null}
           </>
         );
 
-            return (
+        return (
           <li
             key={item.id || item.title}
             className="we-certify-grid-cell"
@@ -62,7 +48,7 @@ export default function WeCertifySection({
                 type="button"
                 className={cardClass}
                 onClick={() => onOpenDetail(item.articleKey)}
-                aria-label={`${item.title}: ${u.we_certify_open_hint}`}
+                aria-label={`${item.title}: ${ui.we_certify_open_hint}`}
               >
                 {inner}
               </button>
@@ -76,6 +62,24 @@ export default function WeCertifySection({
       })}
     </ul>
   );
+}
+
+export default function WeCertifySection({ data, onPage, showHead = true, onOpenDetail }) {
+  const u = data.ui;
+  const coreItems = Array.isArray(data.we_certify) ? data.we_certify : [];
+  const industryItems = Array.isArray(data.we_certify_by_industry) ? data.we_certify_by_industry : [];
+  if (!coreItems.length && !industryItems.length) return null;
+
+  const useSidebar = Boolean(onOpenDetail);
+  const sectionLabelledBy = showHead
+    ? "we-certify-title"
+    : useSidebar
+      ? coreItems.length
+        ? "we-certify-core-title"
+        : industryItems.length
+          ? "we-certify-industry-title"
+          : "we-certify-core-title"
+      : "we-certify-directions-label";
 
   const actions = onPage ? (
     <div className="we-certify-actions">
@@ -84,6 +88,28 @@ export default function WeCertifySection({
       </button>
     </div>
   ) : null;
+
+  const mainBlocks = (
+    <>
+      {coreItems.length ? (
+        <div className="we-certify-block we-certify-block--core">
+          <h2 id="we-certify-core-title" className="we-certify-block-title">
+            {u.we_certify_directions_label}
+          </h2>
+          <WeCertifyCardsGrid items={coreItems} onOpenDetail={onOpenDetail} ui={u} />
+        </div>
+      ) : null}
+      {coreItems.length && industryItems.length ? <hr className="we-certify-section-divider" aria-hidden /> : null}
+      {industryItems.length ? (
+        <div className="we-certify-block we-certify-block--industry">
+          <h2 id="we-certify-industry-title" className="we-certify-block-title">
+            {u.we_certify_industry_label}
+          </h2>
+          <WeCertifyCardsGrid items={industryItems} onOpenDetail={onOpenDetail} ui={u} />
+        </div>
+      ) : null}
+    </>
+  );
 
   return (
     <section
@@ -108,23 +134,37 @@ export default function WeCertifySection({
         {useSidebar ? (
           <div className="we-certify-shell">
             <aside className="we-certify-shell-aside">
-              <WeCertifyDirectionsNav
-                variant="quick"
-                items={items}
-                ariaLabel={u.we_certify_directions_label}
-                titleId="we-certify-nav-heading"
-                onSelect={scrollToWeCertifyCard}
-                hint={u.we_certify_nav_hint_quick}
-              />
+              <div className="we-certify-shell-aside-stack">
+                {coreItems.length ? (
+                  <WeCertifyDirectionsNav
+                    variant="quick"
+                    items={coreItems}
+                    ariaLabel={u.we_certify_directions_label}
+                    titleId="we-certify-nav-core-summary"
+                    onSelect={scrollToWeCertifyCard}
+                    hint={u.we_certify_nav_hint_quick}
+                  />
+                ) : null}
+                {industryItems.length ? (
+                  <WeCertifyDirectionsNav
+                    variant="quick"
+                    items={industryItems}
+                    ariaLabel={u.we_certify_industry_label}
+                    titleId="we-certify-nav-industry-summary"
+                    onSelect={scrollToWeCertifyCard}
+                    hint={u.we_certify_nav_hint_quick}
+                  />
+                ) : null}
+              </div>
             </aside>
             <div className="we-certify-shell-main">
-              {grid}
+              {mainBlocks}
               {actions}
             </div>
           </div>
         ) : (
           <>
-            {grid}
+            {mainBlocks}
             {actions}
           </>
         )}

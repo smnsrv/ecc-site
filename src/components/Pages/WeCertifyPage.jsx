@@ -7,9 +7,13 @@ import WeCertifySection from "../Sections/WeCertifySection.jsx";
 export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenArticle, onCloseArticle }) {
   const u = data.ui;
   const articles = data.we_certify_articles && typeof data.we_certify_articles === "object" ? data.we_certify_articles : {};
+  const weCertifyAll = [
+    ...(Array.isArray(data.we_certify) ? data.we_certify : []),
+    ...(Array.isArray(data.we_certify_by_industry) ? data.we_certify_by_industry : []),
+  ];
   const direction =
-    detailArticleKey && Array.isArray(data.we_certify)
-      ? data.we_certify.find((item) => item.articleKey === detailArticleKey) ?? null
+    detailArticleKey && weCertifyAll.length
+      ? weCertifyAll.find((item) => item.articleKey === detailArticleKey) ?? null
       : null;
   const article = detailArticleKey ? articles[detailArticleKey] : null;
 
@@ -72,8 +76,11 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
             <div className="we-certify-shell">
               <aside className="we-certify-shell-aside">
                 <WeCertifyDirectionsNav
-                  items={data.we_certify}
-                  ariaLabel={u.we_certify_directions_label}
+                  items={[
+                    ...(Array.isArray(data.we_certify) ? data.we_certify : []),
+                    ...(Array.isArray(data.we_certify_by_industry) ? data.we_certify_by_industry : []),
+                  ]}
+                  ariaLabel={`${u.we_certify_directions_label} / ${u.we_certify_industry_label}`}
                   titleId="we-certify-detail-nav-title"
                   onSelect={onOpenArticle}
                   activeArticleKey={detailArticleKey}

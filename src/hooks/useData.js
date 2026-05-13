@@ -59,6 +59,12 @@ export function loadData() {
     if (Array.isArray(parsed.we_certify)) {
       merged.we_certify = mergeWeCertifyById(DEFAULT_DATA.we_certify, parsed.we_certify);
     }
+    if (Array.isArray(parsed.we_certify_by_industry)) {
+      merged.we_certify_by_industry = mergeWeCertifyById(
+        DEFAULT_DATA.we_certify_by_industry,
+        parsed.we_certify_by_industry,
+      );
+    }
     if (merged.we_certify_household_article && !merged.we_certify_articles?.household) {
       merged.we_certify_articles = {
         ...(merged.we_certify_articles && typeof merged.we_certify_articles === "object"

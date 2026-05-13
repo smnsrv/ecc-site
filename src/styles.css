@@ -2314,10 +2314,15 @@ textarea:focus-visible {
   width: 100%;
 }
 
+.section.we-certify-section > .container.we-certify-inner {
+  max-width: min(100%, 1720px);
+  margin-inline: auto;
+}
+
 .we-certify-shell {
   display: grid;
-  grid-template-columns: minmax(0, min(300px, 28vw)) minmax(0, 1fr);
-  gap: clamp(20px, 2.8vw, 40px);
+  grid-template-columns: minmax(0, clamp(200px, 22vw, 260px)) minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 36px);
   align-items: start;
 }
 
@@ -2332,6 +2337,36 @@ textarea:focus-visible {
 
 .we-certify-shell-main {
   min-width: 0;
+}
+
+.we-certify-shell-aside-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.we-certify-block-title {
+  margin: 0 0 clamp(14px, 2vw, 20px);
+  font-family: var(--h);
+  font-size: clamp(17px, 1.5vw, 20px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  line-height: 1.25;
+}
+
+.we-certify-block--industry .we-certify-block-title {
+  color: var(--navy);
+}
+
+.we-certify-section-divider {
+  margin: clamp(22px, 3vw, 36px) 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.we-certify-block--industry {
+  margin-top: 0;
 }
 
 .we-certify-shell-main--detail {
@@ -2637,9 +2672,27 @@ textarea:focus-visible {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 28px);
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 1.75vw, 22px);
   align-items: stretch;
+}
+
+@media (min-width: 560px) {
+  .we-certify-grid:not(.we-certify-grid--solo) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .we-certify-grid:not(.we-certify-grid--solo) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1440px) {
+  .we-certify-grid:not(.we-certify-grid--solo) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .we-certify-grid--solo {
@@ -2651,7 +2704,7 @@ textarea:focus-visible {
   margin: 0;
   flex: 1;
   min-height: 0;
-  padding: clamp(20px, 2.4vw, 28px);
+  padding: clamp(18px, 1.9vw, 26px);
   border-radius: 16px;
   border: 1px solid rgba(24, 84, 196, 0.16);
   background: var(--white);
@@ -2659,7 +2712,7 @@ textarea:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(12px, 1.6vw, 16px);
+  gap: clamp(10px, 1.35vw, 14px);
   width: 100%;
   box-sizing: border-box;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
@@ -2719,14 +2772,14 @@ button.we-certify-card--clickable:active {
 }
 
 .we-certify-ico {
-  font-size: clamp(24px, 2.2vw, 30px);
+  font-size: clamp(22px, 1.6vw + 0.5rem, 28px);
   line-height: 1;
 }
 
 .we-certify-name {
   margin: 0;
   font-family: var(--h);
-  font-size: clamp(17px, 1.4vw, 19px);
+  font-size: clamp(16px, 1.05vw + 0.55rem, 18px);
   font-weight: 700;
   color: var(--navy);
   line-height: 1.3;
@@ -2741,14 +2794,25 @@ button.we-certify-card--clickable:active {
   margin: 0;
   flex: 1 1 auto;
   min-height: 0;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: clamp(14px, 0.35vw + 0.8rem, 15px);
+  line-height: 1.58;
   color: #4b5563;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
   line-clamp: 5;
   overflow: hidden;
+}
+
+@media (min-width: 1440px) {
+  .we-certify-grid:not(.we-certify-grid--solo) .we-certify-name {
+    font-size: clamp(15px, 0.55vw + 0.65rem, 17px);
+  }
+
+  .we-certify-grid:not(.we-certify-grid--solo) .we-certify-text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
 }
 
 .we-certify-actions {
@@ -2897,12 +2961,6 @@ button.we-certify-card--clickable:active {
   line-height: 1.65;
 }
 
-@media (max-width: 1180px) {
-  .we-certify-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 900px) {
   .we-certify-shell {
     grid-template-columns: 1fr;
@@ -2925,11 +2983,6 @@ button.we-certify-card--clickable:active {
 }
 
 @media (max-width: 640px) {
-  .we-certify-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
   .we-certify-grid--solo {
     max-width: 100%;
   }
@@ -3980,6 +4033,26 @@ button.we-certify-card--clickable:active {
   background: #f3f4f6;
   border-radius: 10px;
   border: 1px solid var(--border);
+}
+
+.admin-we-certify-group + .admin-we-certify-group {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.admin-we-certify-group-title {
+  margin: 0 0 6px;
+  font-family: var(--h);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.admin-we-certify-group-code {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .admin-we-certify-hint code {
