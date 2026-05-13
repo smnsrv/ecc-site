@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import PageHero from "./PageHero.jsx";
 import WeCertifyArticleBody from "../Sections/WeCertifyArticleBody.jsx";
+import WeCertifyDirectionsNav from "../Sections/WeCertifyDirectionsNav.jsx";
 import WeCertifySection from "../Sections/WeCertifySection.jsx";
 
 export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenArticle, onCloseArticle }) {
@@ -23,7 +24,7 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
       return (
         <main>
           <PageHero
-            heroClassName="we-certify-detail-hero"
+            heroClassName="page-hero--we-certify we-certify-detail-hero"
             breadcrumbAriaLabel={u.breadcrumb_aria}
             breadcrumbs={[
               { label: u.nav_we_certify, onClick: onCloseArticle },
@@ -49,7 +50,7 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
     return (
       <main>
         <PageHero
-          heroClassName="we-certify-detail-hero"
+          heroClassName="page-hero--we-certify we-certify-detail-hero"
           breadcrumbAriaLabel={u.breadcrumb_aria}
           breadcrumbs={[
             { label: u.nav_we_certify, onClick: onCloseArticle },
@@ -63,23 +64,42 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
           title={detailTitle}
           sub={direction.text}
         />
-        <section className="section we-certify-section we-certify-section--detail">
-          <div className="container fade-up">
-            <WeCertifyArticleBody article={article} anchorId={`we-certify-article-${detailArticleKey}`} />
-            <div className="we-certify-actions we-certify-actions--row">
-              <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
-                {u.we_certify_cta}
-              </button>
-              {data.company?.telegram ? (
-                <a
-                  className="btn-ghost we-certify-tg-link"
-                  href={`https://t.me/${String(data.company.telegram).replace(/^@/, "")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {u.we_certify_tg_cta}
-                </a>
-              ) : null}
+        <section
+          className="section we-certify-section we-certify-section--detail"
+          aria-labelledby="we-certify-detail-nav-title"
+        >
+          <div className="container we-certify-inner fade-up">
+            <div className="we-certify-shell">
+              <aside className="we-certify-shell-aside">
+                <WeCertifyDirectionsNav
+                  items={data.we_certify}
+                  ariaLabel={u.we_certify_directions_label}
+                  titleId="we-certify-detail-nav-title"
+                  onSelect={onOpenArticle}
+                  activeArticleKey={detailArticleKey}
+                  allLabel={u.we_certify_back}
+                  onAll={onCloseArticle}
+                  hint={u.we_certify_nav_hint_detail}
+                />
+              </aside>
+              <div className="we-certify-shell-main we-certify-shell-main--detail">
+                <WeCertifyArticleBody article={article} anchorId={`we-certify-article-${detailArticleKey}`} />
+                <div className="we-certify-actions we-certify-actions--row">
+                  <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
+                    {u.we_certify_cta}
+                  </button>
+                  {data.company?.telegram ? (
+                    <a
+                      className="btn-ghost we-certify-tg-link"
+                      href={`https://t.me/${String(data.company.telegram).replace(/^@/, "")}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {u.we_certify_tg_cta}
+                    </a>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -90,6 +110,7 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
   return (
     <main>
       <PageHero
+        heroClassName="page-hero--we-certify"
         breadcrumbAriaLabel={u.breadcrumb_aria}
         breadcrumbs={[
           { label: u.nav_services, onClick: () => onPage("services") },

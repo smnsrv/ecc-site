@@ -1,9 +1,89 @@
-export default function WeCertifySection({ data, onPage, showHead = true, onOpenDetail }) {
+import WeCertifyDirectionsNav from "./WeCertifyDirectionsNav.jsx";
+
+function scrollToWeCertifyCard(articleKey) {
+  if (typeof document === "undefined" || !articleKey) return;
+  const root = document.getElementById(`we-certify-card-${articleKey}`);
+  if (!root) return;
+  root.scrollIntoView({ behavior: "smooth", block: "center" });
+  const focusTarget = root.querySelector("button.we-certify-card--clickable");
+  if (focusTarget && typeof focusTarget.focus === "function") {
+    focusTarget.focus({ preventScroll: true });
+  }
+  root.classList.add("we-certify-grid-cell--pulse");
+  window.setTimeout(() => root.classList.remove("we-certify-grid-cell--pulse"), 1000);
+}
+
+export default function WeCertifySection({
+  data,
+  onPage,
+  showHead = true,
+  onOpenDetail,
+}) {
   const u = data.ui;
   const items = data.we_certify;
   if (!Array.isArray(items) || !items.length) return null;
 
-  const sectionLabelledBy = showHead ? "we-certify-title" : "we-certify-directions-label";
+  const useSidebar = Boolean(onOpenDetail);
+  const sectionLabelledBy = showHead
+    ? "we-certify-title"
+    : useSidebar
+      ? "we-certify-nav-heading"
+      : "we-certify-directions-label";
+
+  const grid = (
+    <ul
+      className={`we-certify-grid${items.length === 1 ? " we-certify-grid--solo" : ""}`}
+      role="list"
+    >
+      {items.map((item) => {
+        const hasDetail = Boolean(item.articleKey && onOpenDetail);
+        const cardClass = `we-certify-card${hasDetail ? " we-certify-card--clickable is-featured" : ""}`;
+
+        const inner = (
+          <>
+            <span className="we-certify-ico" aria-hidden>
+              {item.ico || "✓"}
+            </span>
+            <h3 className="we-certify-name">{item.title}</h3>
+            <p className="we-certify-text">{item.text}</p>
+            {hasDetail ? <span className="we-certify-card-hint">{u.we_certify_open_hint}</span> : null}
+          </>
+        );
+
+            return (
+          <li
+            key={item.id || item.title}
+            className="we-certify-grid-cell"
+            role="none"
+            id={item.articleKey ? `we-certify-card-${item.articleKey}` : undefined}
+          >
+            {hasDetail ? (
+              <button
+                type="button"
+                className={cardClass}
+                onClick={() => onOpenDetail(item.articleKey)}
+                aria-label={`${item.title}: ${u.we_certify_open_hint}`}
+              >
+                {inner}
+              </button>
+            ) : (
+              <div className={cardClass} role="group" aria-label={item.title}>
+                {inner}
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  const actions = onPage ? (
+    <div className="we-certify-actions">
+      <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
+        {u.we_certify_cta}
+      </button>
+    </div>
+  ) : null;
 
   return (
     <section
@@ -19,61 +99,35 @@ export default function WeCertifySection({ data, onPage, showHead = true, onOpen
             </h2>
             <p className="s-sub we-certify-sub">{u.we_certify_sub}</p>
           </header>
-        ) : (
+        ) : !useSidebar ? (
           <p id="we-certify-directions-label" className="we-certify-directions-label is-standalone">
             {u.we_certify_directions_label}
           </p>
-        )}
-
-        <ul
-          className={`we-certify-grid${items.length === 1 ? " we-certify-grid--solo" : ""}`}
-          role="list"
-        >
-          {items.map((item) => {
-            const hasDetail = Boolean(item.articleKey && onOpenDetail);
-            const cardClass = `we-certify-card${hasDetail ? " we-certify-card--clickable is-featured" : ""}`;
-
-            const inner = (
-              <>
-                <span className="we-certify-ico" aria-hidden>
-                  {item.ico || "✓"}
-                </span>
-                <h3 className="we-certify-name">{item.title}</h3>
-                <p className="we-certify-text">{item.text}</p>
-                {hasDetail ? (
-                  <span className="we-certify-card-hint">{u.we_certify_open_hint}</span>
-                ) : null}
-              </>
-            );
-
-            return (
-              <li key={item.id || item.title} className="we-certify-grid-cell" role="none">
-                {hasDetail ? (
-                  <button
-                    type="button"
-                    className={cardClass}
-                    onClick={() => onOpenDetail(item.articleKey)}
-                    aria-label={`${item.title}: ${u.we_certify_open_hint}`}
-                  >
-                    {inner}
-                  </button>
-                ) : (
-                  <div className={cardClass} role="group" aria-label={item.title}>
-                    {inner}
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-
-        {onPage ? (
-          <div className="we-certify-actions">
-            <button type="button" className="btn-primary" onClick={() => onPage("contacts")}>
-              {u.we_certify_cta}
-            </button>
-          </div>
         ) : null}
+
+        {useSidebar ? (
+          <div className="we-certify-shell">
+            <aside className="we-certify-shell-aside">
+              <WeCertifyDirectionsNav
+                variant="quick"
+                items={items}
+                ariaLabel={u.we_certify_directions_label}
+                titleId="we-certify-nav-heading"
+                onSelect={scrollToWeCertifyCard}
+                hint={u.we_certify_nav_hint_quick}
+              />
+            </aside>
+            <div className="we-certify-shell-main">
+              {grid}
+              {actions}
+            </div>
+          </div>
+        ) : (
+          <>
+            {grid}
+            {actions}
+          </>
+        )}
       </div>
     </section>
   );

@@ -54,6 +54,8 @@ export const DEFAULT_DATA = {
     we_certify_back: "Назад к направлениям",
     we_certify_open_hint: "Подробнее",
     we_certify_tg_cta: "Написать в Telegram",
+    we_certify_nav_hint_quick: "Пункт ведёт к карточке на этой странице",
+    we_certify_nav_hint_detail: "Выберите другое направление — откроется его описание",
     page_about_eyebrow: "О компании",
     page_about_title: "Ваш надежный партнер в области оценки соответствия",
     page_about_sub: "Сертификация, лабораторные испытания и оценка соответствия в Узбекистане.",
