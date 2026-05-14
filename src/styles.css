@@ -2470,6 +2470,10 @@ textarea:focus-visible {
   color: #4b5563;
 }
 
+.page-hero-context + .page-hero-context {
+  margin-top: 12px;
+}
+
 /* Плотнее и уже мера ввода для страницы «Мы сертифицируем» */
 .page-hero--we-certify {
   padding: clamp(28px, 3.8vw, 48px) 0 clamp(16px, 2.2vw, 26px);

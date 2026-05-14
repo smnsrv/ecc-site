@@ -104,7 +104,15 @@ export default function PageHero({
         <p className="eyebrow">{eyebrow}</p>
         <h1 className="page-hero-title">{title}</h1>
         <p className="s-sub page-hero-sub">{sub}</p>
-        {contextNote ? <p className="page-hero-context">{contextNote}</p> : null}
+        {contextNote ? (
+          (Array.isArray(contextNote) ? contextNote : [contextNote])
+            .filter((block) => block != null && String(block).trim() !== "")
+            .map((block, i) => (
+              <p key={i} className="page-hero-context">
+                {block}
+              </p>
+            ))
+        ) : null}
       </div>
     </section>
   );
