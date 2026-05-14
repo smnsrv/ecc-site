@@ -9,7 +9,7 @@ export default function Nav({ data, page, onPage, mobileOpen, setMobileOpen }) {
     if (p === "home") return u.nav_home;
     if (p === "services") return u.nav_services;
     if (p === "we-certify") return u.nav_we_certify;
-    if (p === "certification-stages") return "Этапы";
+    if (p === "certification-stages") return u.nav_certification_stages;
     if (p === "about") return u.nav_about;
     return u.nav_contacts;
   };

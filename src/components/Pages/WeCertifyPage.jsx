@@ -130,7 +130,7 @@ export default function WeCertifyPage({ data, onPage, detailArticleKey, onOpenAr
         eyebrow={u.page_we_certify_eyebrow}
         title={u.page_we_certify_title}
         sub={u.page_we_certify_sub}
-        contextNote={u.regulatory_context_line}
+        contextNote={u.page_we_certify_context_note}
       />
       <WeCertifySection data={data} onPage={onPage} showHead={false} onOpenDetail={onOpenArticle} />
     </main>
