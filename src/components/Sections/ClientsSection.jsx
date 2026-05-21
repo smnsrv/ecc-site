@@ -11,9 +11,10 @@ function resolveLogoUrl(path) {
 
 function ClientLogoItem({ c }) {
   const src = resolveLogoUrl(c.logo);
+  const isSamsung = c.name === "Samsung" || (c.logo && String(c.logo).includes("samsung"));
   if (src) {
     return (
-      <div className="client-logo">
+      <div className={`client-logo${isSamsung ? " client-logo--samsung" : ""}`}>
         <img
           className="client-logo__img"
           src={src}

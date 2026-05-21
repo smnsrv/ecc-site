@@ -9,7 +9,7 @@ export default function Services({ data, onPage, onOpenService }) {
         eyebrow={u.page_services_eyebrow}
         title={u.page_services_title}
         sub={u.page_services_sub}
-        contextNote={u.regulatory_context_line}
+        contextNote={u.page_services_context_note}
       />
       <section className="section services-page-cross">
         <div className="container fade-up">

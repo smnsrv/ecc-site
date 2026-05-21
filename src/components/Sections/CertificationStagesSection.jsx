@@ -88,7 +88,7 @@ export default function CertificationStagesSection() {
       <div className="container">
         <div className="cert-stages-head fade-up">
           <h2 id="cert-stages-heading" className="s-title cert-stages-section-title">
-            Пошаговая дорожная карта
+            Пошаговое руководство
           </h2>
           <p className="s-sub cert-stages-intro">
             Семь последовательных шагов — от заявки и проверки документов до регистрации сертификата в реестре. Выберите этап

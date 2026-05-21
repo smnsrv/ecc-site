@@ -333,7 +333,7 @@ textarea:focus-visible {
   width: 100%;
   padding-left: clamp(16px, 3vw, 48px);
   padding-right: clamp(16px, 3vw, 48px);
-  min-height: 118px;
+  min-height: 160px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -354,9 +354,9 @@ textarea:focus-visible {
 
 .logo-img {
   display: block;
-  height: clamp(82px, 8.5vw, 102px);
+  height: clamp(118px, 12vw, 148px);
   width: auto;
-  max-width: min(640px, calc(100vw - 100px));
+  max-width: min(800px, calc(100vw - 72px));
   object-fit: contain;
 }
 
@@ -659,7 +659,7 @@ textarea:focus-visible {
 
 .check-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   min-height: 42px;
   width: 100%;
@@ -683,9 +683,9 @@ textarea:focus-visible {
   width: 18px;
   height: 18px;
   margin: 0;
-  margin-top: 1px;
   accent-color: var(--blue);
   flex: 0 0 auto;
+  align-self: center;
 }
 
 .check-item span {
@@ -1525,6 +1525,13 @@ textarea:focus-visible {
   opacity: 1;
 }
 
+.client-logo--samsung .client-logo__img {
+  width: auto;
+  max-width: min(100%, 340px);
+  max-height: 92px;
+  height: 92px;
+}
+
 .client-logo--text {
   border: 0;
   border-radius: 0;
@@ -1668,7 +1675,7 @@ textarea:focus-visible {
 .cert-stages-jump {
   position: sticky;
   /* ниже липкой шапки (.nav, z-index 50) */
-  top: clamp(100px, 14vw, 132px);
+  top: clamp(132px, 17vw, 172px);
   z-index: 40;
   margin: 0 0 22px;
   padding: 12px 0 14px;
@@ -4489,7 +4496,7 @@ button.we-certify-card--clickable:active {
   }
 
   .cert-stages-jump {
-    top: clamp(88px, 20vw, 118px);
+    top: clamp(116px, 24vw, 148px);
   }
 
   .footer-grid {
@@ -4522,14 +4529,14 @@ button.we-certify-card--clickable:active {
   }
 
   .nav-inner {
-    min-height: 84px;
+    min-height: 112px;
     padding-left: 14px;
     padding-right: 14px;
   }
 
   .logo-img {
-    height: 64px;
-    max-width: min(320px, calc(100vw - 92px));
+    height: 92px;
+    max-width: min(420px, calc(100vw - 68px));
   }
 
   .mobile-menu {
